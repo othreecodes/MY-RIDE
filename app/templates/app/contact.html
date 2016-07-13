@@ -1,0 +1,68 @@
+{% extends 'app/base_template.html' %}
+
+{% block body %}
+
+    <section class="main-content">
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="page-sub-title textcenter">
+                        <h2>Contact</h2>
+                        <div class="line"></div>
+                    </div><!-- end .page-sub-title -->
+
+                </div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="page-content">
+                        {% if done %}
+                        <h2 class="alert-success alert" style="text-align: center">Your Message has been sent successfully</h2>
+                        {% endif %}
+                        <form id="cantact-form" action="#" validate autocomplete="off" method="post" class="idealforms">
+{% csrf_token %}
+                            <div class="field">
+                                <input name="username" type="text" placeholder="Name" required>
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="field">
+                                <input name="email" type="email" placeholder="Email address" required>
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="field">
+                                <input  name="website" type="text"  placeholder="Website" >
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="full-fild">
+                                <textarea name="message" id="message" cols="5" placeholder="Message" rows="4" required></textarea>
+                            </div>
+
+                            <div class="field buttons">
+                                <button type="submit" class="btn btn-lg blue-color">Submit</button>
+                            </div>
+
+                            <span id="invalid"></span>
+
+                        </form>
+
+                    </div><!-- end .page-content -->
+
+                </div><!-- end .col-md-9 -->
+
+
+
+            </div><!-- end .row -->
+        </div><!-- end .container -->
+
+    </section><!-- end .main-content -->
+
+
+
+
+{% endblock %}

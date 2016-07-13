@@ -1,0 +1,51 @@
+{% extends 'app/user_template.html' %}
+{% load staticfiles %}
+{% block username %}
+    {{ request.user.username }}
+{% endblock %}
+
+{% block navigation %}
+    {% include 'app/driver_template.html' %}
+{% endblock %}
+
+{% block body %}
+    <section class="main-content">
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-12 col-md-12 col-xs-12">
+
+                    <div class="page-sub-title textcenter">
+                        <h2>Share Ride</h2>
+
+                        <div class="line"></div>
+                    </div><!-- end .page-sub-title -->
+
+                </div><!-- end .col-lg-12 -->
+
+                <div class="col-sm-12 col-md-12 col-xs-12">
+
+                    <div class="page-content add-new-ride">
+
+                        <form action="" validate autocomplete="off" class="idealforms add-ride" method="post">
+                            {% csrf_token %}
+                            {% include 'app/form_template.html' %}
+
+                            <div class="field buttons">
+                                <button type="submit" class="btn btn-lg green-color">Submit</button>
+                            </div>
+
+                        </form>
+
+                    </div><!-- end .page-content -->
+
+                </div><!-- end .col-sm-12 -->
+
+            </div><!-- end .row -->
+        </div><!-- end .container -->
+
+    </section><!-- end .main-content -->
+
+
+{% endblock %}

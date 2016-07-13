@@ -1,0 +1,49 @@
+{% extends 'app/base_template.html' %}
+
+{% block body %}
+
+    <section class="main-content">
+        <div class="modal-dialog " id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="">
+                <div class="modal-content">
+
+                    {% if error_message %}
+                        <p class="error alert-danger alert"><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                    <div class="modal-body">
+                        <form action="{% url 'app:login_user' %}" novalidate autocomplete="off" class="idealforms login" method="post" >
+                            {% csrf_token %}
+                            <div class="log-header">
+                                <span class="log-in">Log in</span>
+                            </div>
+
+                            <div class="field">
+                                <input name="username" type="text" placeholder="Username">
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="field">
+                                <input type="password" name="password" placeholder="Password">
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="field buttons">
+                                <button type="submit" class="submit btn green-color">Log in</button>
+                            </div>
+                            <div class="field buttons">
+                                <a href="{% url 'app:sign_up' %}" role="button" class=" btn blue-color btn-lg">Sign up</a>
+                            </div>
+                            <div class="clearfix"></div>
+
+                        </form><!-- end .login -->
+                    </div><!-- end .modal-body -->
+
+                </div><!-- end .modal-content -->
+            </div><!-- end .modal-dialog -->
+        </div><!-- end .modal -->
+
+
+
+    </section>
+
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'app/user_template.html' %}
+
+{% block username %}
+    {{ request.user.username }}
+{% endblock %}
+{% block navigation %}
+    {% if request.user.user_type == 'Driver' %}
+        {% include 'app/driver_template.html' %}
+    {% elif request.user.user_type == 'Passenger' %}
+        {% include 'app/passenger_template.html' %}
+    {% endif %}
+
+{% endblock %}
+
+{% block body %}
+    <section class="main-content">
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="page-sub-title textcenter">
+                        <h2>ABOUT</h2>
+
+                        <div class="line"></div>
+                    </div><!-- end .page-sub-title -->
+
+                </div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="page-content">
+
+                        <article class="single-article">
+
+                            <header class="single-article-title">
+                                <h2>About My Ride </h2>
+
+                            </header>
+
+                            <ul class="article-meta">
+
+                                <li class="article-date">
+                                    <a href="#" class="tooltip-link" data-original-title="Date" data-toggle="tooltip">
+                                        <i class="fa fa-calendar"></i>
+                                        July 11, 2016 at 15:00 PM
+                                    </a>
+                                </li><!-- end .article-date -->
+
+
+                            </ul><!-- end .article-meta -->
+
+                            <div class="article-content ride-box clearfix">
+                                <h1>My ride is a carpooling system that helps users get around easily and also make new
+                                    friends while doing it.</h1>
+                                With the continuous increase of private vehicles in the urban and suburban area, the ill
+                                effects of
+                                vehicle externalities on the environment such as pollution levels, parking problem
+                                traffic congestion,
+                                and accidents are increasing in every year. An effective way to decrease this problem is
+                                carpooling strategy. According to this strategy,
+                                people who use same route to reach their work places, or who want share their car
+                                journeys. In addition, carpooling is significantly correlated with transport operating
+                                costs, including fuel prices
+                                <br>
+
+                                <h1 style="text-align: center">Features Include</h1>
+
+                                <h2>1. User Registration:</h2>
+                                Users make their registration into the system at first with their personal details(name,
+                                address, email, sex etc.) and then the system will create an account for each user.
+                                Users are able to update their profiles and other personal details.
+
+
+                                <h2>2. Offer for vehicle sharing:</h2>
+                                When private vehicle owner wants to share his/her vehicle then the vehicle owner may
+                                enter information such as
+                                Sharing cost/KM, Number of allowable co-passenger (When co-passenger will be increased
+                                the sharing cost will be automatically divided), Source/Destination, Journey start time,
+                                Probable time of reaching their, Number of allowable persons, Gender amd Other comments
+
+
+                                <h4>2.1 Registration of own vehicle information:</h4>
+                                Any person who offers his/ her own vehicle sharing must enters the following information<br>
+                                Vehicle details- Vehicle Type, Make, model, year of purchase, Driver type, siting
+                                capacity<br>
+                                <i>Driver details – Owner or driver name, Licence no, Date of licence (Coming soon)</i>
+
+                                <h4><i>2.2 Registration of hire vehicle information:(Coming soon)</i></h4>
+                                Any person who hires a vehicle from a travel agency for a particular destination then
+                                the user may enter the following information<br>
+                                <i>Travel agency details- Travel agency name, Travel agency address,</i> cost/ KM,
+                                Vehicle Type, Number of allowable co-passenger
+
+
+                                <h2>3 Request for joining shared vehicle:</h2>
+                                Any person who wants to join a shared vehicle would enter the following information<br>
+                                Picking point and Destination point, Maximum bearable cost
+
+
+                                <h2>4 Car pool search</h2>
+                                A person who wants to find a vehicle to get sharing may search with any of the following<br>
+                                <ul>
+                                    <li>Source</li>
+                                    <li>Destination</li>
+                                    <li><i>Particular date (Coming soon)</i></li>
+                                    <li>Vehicle Type</li>
+                                </ul>
+                                <br>
+                                The system will the following :<br>
+                                <ul>
+                                    <li>Bearable cost</li>
+                                    <li>Owner</li>
+                                    <li>Date</li>
+                                    <li>No of allowed passengers</li>
+                                </ul>
+                                After selecting a vehicle, the requester can view the detail of person who offers the
+                                service.
+                                Then the user makes a request for sharing confirmation. After getting the request
+                                message,
+                                the service provider can confirm or deny the request for sharing confirmation. The
+                                system will also display record of multiple owners if there is no direct communication
+                                between source and destination.
+                            </div>
+
+
+                        </article>
+
+
+                    </div><!-- end .page-content -->
+
+                </div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
+
+            </div><!-- end .row -->
+        </div><!-- end .container -->
+
+    </section><!-- end .main-content -->
+
+{% endblock %}

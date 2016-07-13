@@ -1,0 +1,102 @@
+{% extends 'app/user_template.html' %}
+{% load staticfiles %}
+{% block username %}
+    {{ request.user.username }}
+{% endblock %}
+{% block navigation %}
+    {% if request.user.user_type == 'Driver' %}
+        {% include 'app/driver_template.html' %}
+    {% elif request.user.user_type == 'Passenger' %}
+        {% include 'app/passenger_template.html' %}
+    {% endif %}
+
+{% endblock %}
+
+{% block body %}
+    <section class="main-content">
+        <div class="container container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-xs-12">
+
+                    <div class="page-sub-title textcenter">
+                        <h2>{{ user.username.upper }}'S REQUESTS</h2>
+                        <div class="line"></div>
+                    </div><!-- end .page-sub-title -->
+
+                </div>
+                <br>
+                {% if all_user_requests %}
+                    {% for user_request in all_user_requests %}
+                        <div class="col-sm-4 col-lg-3 col-md-3 col-space">
+                            <div class="thumbnail">
+                                <a href="{{ user_request.get_absolute_url }}">
+                                    <img src="{% static 'app/img/request.jpg' %}" class="img-responsive">
+                                </a>
+
+                                <div class="caption">
+                                    <h2><a href="{{ user_request.get_absolute_url }}">{{ user_request }}</a></h2>
+                                    <h4><a href="{{ user_request.ride.get_absolute_url }}">From {{ user_request.pick }} to {{ user_request.dest }}</a></h4>
+
+                                    {% if user_request.status == 'approved' %}
+                                        <p class="ride-people">
+                                            <a  class="tooltip-link " data-original-title="status"
+                                                data-toggle="tooltip" style="color: green">
+                                                <i class="fa fa-user" ></i>&nbsp;{{ user_request.status }}
+
+                                            </a>
+                                        </p><!-- end .ride-people -->
+                                    {% elif user_request.status == 'denied' %}
+                                        <p class="ride-people">
+                                            <a  class="tooltip-link " data-original-title="status"
+                                                data-toggle="tooltip" style="color: red">
+                                                <i class="fa fa-user" ></i>&nbsp;{{ user_request.status }}
+
+                                            </a>
+                                        </p><!-- end .ride-people -->
+                                    {% else %}
+                                        <p class="ride-people">
+                                            <a  class="tooltip-link " data-original-title="status"
+                                                data-toggle="tooltip" style="color: black">
+                                                <i class="fa fa-user" ></i>&nbsp;{{ user_request.status }}
+
+                                            </a>
+                                        </p><!-- end .ride-people -->
+                                    {% endif %}
+
+
+                                    <form action="{% url 'app:request_delete' user_request.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+
+                                        <button type="submit" class="btn btn-danger btn-sm panel-button">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </form>
+
+                                    <a href="{{ user_request.get_absolute_url }}" class="btn btn-success btn-sm" role="button"
+                                       >
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                    </a>
+
+                                </div>
+                            </div>
+                            {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                        </div>
+                        &nbsp;
+                    {% endfor %}
+
+                {% else %}
+                    <div class="col-sm-12">
+                        <br>
+                        <a href="{% url 'app:search_ride' request.user.id %} ">
+                            <button type="button" class="btn btn-success">
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp; Add a request
+                            </button>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}
