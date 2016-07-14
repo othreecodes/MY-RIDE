@@ -1,9 +1,9 @@
-# MY-RIDE (Django Carpool)
+# MY-RIDE (Django Carpool) ![](https://img.shields.io/badge/othree-codes-yellowgreen.svg)
 # AUTHOR - OTHREE
 # EMAIL - daviduchenna@outlook.com
+# Live Demo - http://othree.pythonanywhere.com
 
-### Version
-1.0.0
+![](http://i.imgur.com/1bpbbFM.png)
 
 ### Installation
 requires python > 3 django 1.9
