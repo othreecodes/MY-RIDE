@@ -1,0 +1,233 @@
+{% extends 'app/user/main_template.html' %}
+{% load staticfiles %}
+{% load humanize %}
+
+
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+            Search Ride <small>- Find a ride to join from available destinations</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">Search Ride</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block body %}
+
+    <section class="content">
+    <div class="page-header">Filter by any of the following<small class="page-sub-title">leave blank to view all available rides</small></div>
+
+
+        <!-- =========================================================== -->
+        <form action="{% url 'app:search_ride' request.user.id %}" method="post" novalidate autocomplete="on" >
+            {% csrf_token %}
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box box-info " style="height: 98px;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">All Places</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool"><i class="fa fa-map-marker"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <select class="form-control select2 " name="source" style="width: 100%; border-radius: 0px">
+                            <option class="default"></option>
+                            {% for ride in allrides %}
+                            <option>{{ ride.start }}</option>
+                                <option>{{ ride.dest }}</option>
+                            {% endfor %}
+
+
+                        </select>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3">
+                <div class="box box-info " style="height: 98px;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Date</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" ><i class="fa fa-calendar"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="input-group date" style="width: 100%; border-radius: 0px">
+
+                           <input type="text" class="datepicker form-control" id="datepicker" name="date" data-date-start-date="0d" />
+
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3">
+                <div class="box box-info " style="height: 98px;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Vehicle Type</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" ><i class="fa fa-car"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <select class="select2 form-control" style="width: 100%; border-radius: 0px" name="vehicle_type">
+                            <option class="default" ></option>
+                        <option>Car</option>
+                        <option>Bus</option>
+                        <option>Coaster</option>
+                        <option>Truck</option>
+                        </select>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+
+            <!-- /.col -->
+            <div class="col-md-3">
+
+            <br>
+
+            <!-- /.box-header -->
+            <div class="">
+                <button type="submit" class="btn btn-flat btn-block btn-primary btn-md" style="float:bottom;" onsubmit="this.innerHTML='Searching...'">Search</button>
+            </div>
+            <!-- /.box-body -->
+
+    <!-- /.col -->
+        </div>
+</div>
+</form>
+    </section>
+
+    <div class="content-wrapper" style="min-height: 1126px;">
+    {% ifnotequal size 0 %}
+        <div class="page-header"><small class="page-sub-title">Search results ({{ size}})</small></div>
+        {% else %}
+        <div class="page-header"><small class="page-sub-title">No Results</small>try another search or</div>
+        <a href="{% url 'app:index' %}#ride-broadcast" class="btn btn-primary btn-lg"><i class="fa fa-bullhorn"></i>&nbsp;Broadcast a Ride Request</a>
+ {% endifnotequal %}
+
+        {% for ride in rides %}
+        <ul class="timeline">
+
+            <!-- timeline time label -->
+            <li class="time-label">
+        <span class="bg-red">
+            {{ ride.date|naturalday|capfirst }}
+        </span>
+
+            </li>
+            <!-- /.timeline-label -->
+
+            <!-- timeline item -->
+            <li>
+
+                <div class="timeline-item">
+                    <span class="time"><i class="fa fa-clock-o"></i> {{ ride.start_time }}</span>
+
+                    <h3 class="timeline-header"><a href="{{ ride.get_absolute_url }}">{{ ride }}</a>&nbsp;-&nbsp;
+                        <span><a href="{{ ride.vehicle.user.get_absolute_url }}">{{ ride.vehicle.user.username }}</a> </span>   </h3>
+
+                    <div class="timeline-body">
+                        <dl class="">
+                            <dt>Ride Details: </dt>
+                            <dd class=""><textarea style="width: 100%;height: 100%" class="form-control-static form-inline" readonly aria-readonly="true">{{ ride.details }}</textarea></dd>
+                            <dt>Gender Preference: </dt>
+                            <dd>{{ ride.sex }}</dd>
+                            <dt>Vehicle Type: </dt>
+                            <dd>{{ ride.vehicle.type }}&nbsp;{{ ride.vehicle.category  }}</dd>
+                            <dt>Number of Seats: </dt>
+                            <dd>{{ ride.no_pass }}</dd>
+                        </dl>
+                    </div>
+
+                    <div class="timeline-footer">
+                        <a data-toggle="modal" class="btn btn-primary btn-xs" data-target="#add{{ ride.id }}" style="cursor: pointer;">
+                            <i class="fa fa-plus"></i>
+                            Join Ride
+                        </a>
+                        <a class="btn btn-success btn-xs pull-right">₦ {{ ride.cost }}</a>
+                    </div>
+                </div>
+            </li>
+            <!-- END timeline item -->
+        </ul>
+
+            <div class="modal modal-info" id="add{{ ride.id }}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title">Ride : {{ ride|capfirst }}</h4>
+                        </div>
+                        <form action="{% url 'app:request_ride' user.id ride.id %}" validate autocomplete="off" class="idealforms" method="post" >
+                            {% csrf_token %}
+                            <div class="modal-body">
+
+                                <div class="log-header">
+                                    <span class="log-in">Request to join Ride</span>
+                                    <span class="">{{ ride }}</span>
+                                </div>
+                                <br>
+
+                                <div class="field">
+                                    <input name="pick" class="form-control" type="text" placeholder="Pick up point" required>
+                                </div>
+                                <br>
+
+                                <div class="field">
+                                    <input type="text" class="form-control" name="dest" placeholder="Destination" required>
+                                </div>
+                                <br>
+
+                                <div class="field">
+                                    <input type="number" class="form-control" name="bearable" placeholder="Bearable cost (In Naira (₦))" required>
+                                </div>
+                                <br>
+
+
+                                <div class="clearfix"></div>
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-outline pull-left" onloadstart="this.innerHTML='Searching...'">Join</button>
+
+                        </div>
+                        </form><!-- end .login -->
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

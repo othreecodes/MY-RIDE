@@ -1,0 +1,97 @@
+{% extends 'app/user/main_template.html' %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+            Request <small> - from {{ user_requests.user }} {{ user_requests.reg_date|naturaltime }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-home"></i> Home</a></li>
+            {% ifequal request.user.user_type 'Driver' %}
+            <li><a href="{% url 'app:view_shared' request.user.id %}"><i class="fa fa-cab"></i> Shared Rides</a></li>
+            {% endifequal %}
+            <li class="active">{{ user_requests.ride }}</li>
+        </ol>
+    </section>
+{% endblock %}
+{% block body%}
+    <div class="content-wrapper" style="min-height: 1126px;">
+        <!-- Content Header (Page header) -->
+
+
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user-2">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="widget-user-header bg-blue-gradient">
+                            <div class="widget-user-image">
+                                <img class="img-circle" src="{{ user_requests.user.get_profile.picture.url }}" alt="User Avatar">
+                            </div>
+                            <!-- /.widget-user-image -->
+                            <h3 class="widget-user-username"><a class="text-bold text-black" href="{{ user_requests.user.get_absolute_url }}" >{{ user_requests.user|capfirst }}</a></h3>
+                            <h6 class="widget-user-desc"><a class="alert-link" href="{{ user_requests.user.get_absolute_url }}">{{ user_requests.user.full_name|capfirst }}</a></h6>
+                        </div>
+                        <div class="box-footer no-padding">
+                            <ul class="nav nav-stacked">
+                                <li><a href="{{ user_requests.ride.get_absolute_url }}">&nbsp;{{ user_requests.ride }} <span class="pull-left badge bg-light-blue-gradient">&nbsp;Requested Ride&nbsp;<i class="fa fa-cab"></i></span></a></li>
+                                <li><a >&nbsp;{{ user_requests.user.sex }} <span class="pull-left badge bg-light-blue-gradient">&nbsp;Sex&nbsp;<i class="fa fa-circle-o-notch"></i></span></a></li>
+                                <li><a >&nbsp;{{ user_requests.user.no_of_request_completed|apnumber }} <span class="pull-left badge bg-light-blue-gradient">&nbsp;Rides Taken&nbsp;<i class="fa fa-car"></i></span></a></li>
+
+                                <li><a >&nbsp;₦ {{ user_requests.bearable }}/   ₦ {{ user_requests.ride.cost }} <span class="pull-left badge bg-green">&nbsp;Bearable Cost&nbsp;<i class="fa fa-money"></i></span></a></li>
+
+                                {% if user_requests.status == 'approved' %}
+                                    <li class="ride-people">
+                                        <a style="color: green">
+                                            &nbsp;<i class="fa fa-user" ></i>&nbsp;{{ user_requests.status }}&nbsp;
+                                            <span class="pull-left badge bg-green">&nbsp;Status&nbsp;<i class="fa fa-info"></i></span>
+                                        </a>
+                                    </li><!-- end .ride-people -->
+                                {% elif user_requests.status == 'denied' %}
+                                    <li class="ride-people">
+                                        <a  style="color: red">
+                                            &nbsp; <i class="fa fa-user" ></i>&nbsp;{{ user_requests.status }}&nbsp;
+                                            <span class="pull-left badge bg-red">&nbsp;Status&nbsp;<i class="fa fa-info"></i></span>
+                                        </a>
+                                    </li><!-- end .ride-people -->
+                                {% else %}
+                                    <li class="ride-people">
+                                        <a  style="color: black">
+                                            &nbsp;<i class="fa fa-user" ></i>&nbsp;{{ user_requests.status }}&nbsp;
+                                            <span class="pull-left badge bg-black">&nbsp;Status&nbsp;<i class="fa fa-info"></i></span>
+                                        </a>
+                                    </li><!-- end .ride-people -->
+                                {% endif %}
+
+                                <li><a href="{{ user_requests.ride.user.get_absolute_url }}">&nbsp;{{ user_requests.ride.user }} <span class="pull-left badge bg-light-blue-gradient">&nbsp;Driver&nbsp;<i class="fa fa-user-md"></i></span></a></li>
+                            <li>
+                                {% if user_requests.ride.user == request.user %}
+                                {% if not user_requests.ride.ended and user_requests.status != 'canceled' %}
+                                    {% if user_requests.status == 'approved' %}
+                                        <a href="{% url 'app:request_driver_deny' user_requests.id %}" style="cursor: pointer;text-decoration: none" class="btn-danger btn-sm btn" >  <i class="fa fa-close "></i>&nbsp;Deny </a>
+                                    {% elif pass_requests.status == 'denied' %}
+                                        <a href="{% url 'app:request_driver_approve' user_requests.id %}" style="cursor: pointer;text-decoration: none" class="btn-success btn-sm btn" >  <i class="fa fa-check "></i>&nbsp;Approve </a>
+                                    {% else %}
+                                        <a href="{% url 'app:request_driver_approve' user_requests.id %}" style="cursor: pointer;text-decoration: none" class=" btn-success btn-sm btn">  <i class="fa fa-check "></i>&nbsp;Approve </a>&nbsp;
+                                        <a href="{% url 'app:request_driver_deny' user_requests.id %}" style="cursor: pointer;text-decoration: none" class="btn-danger btn-sm btn" >  <i class="fa fa-close "></i>&nbsp;Deny </a>
+                                    {% endif %}
+                                {% endif %}
+                                {% endif %}
+
+                            </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.widget-user -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+{% endblock %}

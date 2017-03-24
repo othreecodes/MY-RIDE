@@ -1,30 +1,23 @@
-{% extends 'app/user_template.html' %}
+{% extends 'app/user/main_template.html' %}
+{% load staticfiles %}
+{% block cont-header %}
+    <section class="content-header">
 
-{% block username %}
-    {{ request.user.username }}
-{% endblock %}
-{% block navigation %}
-    {% if request.user.user_type == 'Driver' %}
-        {% include 'app/driver_template.html' %}
-    {% elif request.user.user_type == 'Passenger' %}
-        {% include 'app/passenger_template.html' %}
-    {% endif %}
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 
+            <li class="active">About</li>
+        </ol>
+    </section>
 {% endblock %}
+
 
 {% block body %}
-    <section class="main-content">
+    <section class="main-content" id="content">
 
         <div class="container">
             <div class="row">
 
-                <div class="col-md-12 col-sm-12 col-xs-12">
-
-                    <div class="page-sub-title textcenter">
-                        <h2>ABOUT</h2>
-
-                        <div class="line"></div>
-                    </div><!-- end .page-sub-title -->
 
                 </div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
                 <div class="col-md-12 col-sm-12 col-xs-12">

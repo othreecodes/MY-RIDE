@@ -1,0 +1,47 @@
+ <section class="main-content" id="content">
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="page-sub-title textcenter">
+                        <h2>
+                            {% if user.is_authenticated %}
+                                EDIT PROFILE
+                            {% else %}
+                                SIGN UP
+
+                            {% endif %}
+
+                        </h2>
+
+                        <div class="line"></div>
+                    </div><!-- end .page-sub-title -->
+
+                </div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="page-content add-new-ride">
+
+                        <form   action="" novalidate autocomplete="off" class="idealforms add-ride" role="form" method="post" enctype="multipart/form-data">
+
+                            {% csrf_token %}
+                            {% include 'app/form_template.html' %}
+                            <div class="field buttons">
+                                <button type="submit" class="btn btn-lg blue-color">Submit</button>
+                            </div>
+
+                            <span id="invalid"></span>
+
+                        </form>
+
+                    </div><!-- end .page-content -->
+
+                </div><!-- end .col-md-9 -->
+
+                </form>
+            </div>
+        </div>
+    </section>

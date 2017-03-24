@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <!-- Styles -->
+    <link rel="stylesheet" href="{% static "app/dist/css/AdminLTE.min.css" %}">
+    <!-- Bootstrap -->
+    <link type="text/css" href="{% static 'app/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Forms -->
+    <link type="text/css" href="{% static 'app/css/jquery.idealforms.css' %}" rel="stylesheet">
+    <!-- Select  -->
+    <link type="text/css" href={% static 'app/css/jquery.idealselect.css' %} rel="stylesheet">
+    <!-- Slicknav  -->
+    <link type="text/css" href={% static 'app/css/slicknav.css' %} rel="stylesheet">
+    <!-- Main style -->
+    <link type="text/css" href={% static 'app/css/style.css' %} rel="stylesheet">
+
+    <!-- Modernizr -->
+    <script src={% static 'app/js/modernizr.js' %}></script>
+
+    <!-- Fonts -->
+    <link type="text/css" href={% static 'app/css/font-awesome.min.css' %} rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <title>MY RIDE</title>
+</head>
+<body>
+<header class="header">
+
+    <div class="top-menu">
+
+        <section class="container">
+            <div class="row">
+                <div class="row">
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="user-log">
+                            <a  href="{% url 'app:dashboard' %}">
+                               </span>&nbsp({% block username %}{% endblock %})</span>
+
+                                </a>
+
+                            <ul class="pull-right list-inline " style="margin-bottom: 0">
+
+                                <li>
+                                    <a class="alert-link not" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                        <i class="fa fa-dashboard fa-2x"></i>
+                                        <span class="badge badge-sm badge-up danger" style="vertical-align: top"></span>
+                                    </a>
+
+                                    <ul class="dropdown-menu" style="width: 100%;text-align: center">
+                                        <li class="dropdown-header" style="text-align: center"><i class="fa fa-dashboard"></i>&nbsp;dashboard
+                                            <span class="fa fa-close not" style="float: right; "></span></li>
+
+                                        <li>
+                                            <a  href="{% url 'app:dashboard' %}" class="not" >
+                                                <h3 style="margin: 0px"><span><span class="fa fa-dashboard"></span>&nbsp;Visit dashboard&nbsp;</span></h3>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a  href="{% url 'app:dashboard' %}" class="not" >
+                                                <h3 style="margin: 0px"><span><span class="fa fa-envelope"></span>&nbsp;Messages&nbsp;</span></h3>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a  href="{% url 'app:logout_user' %}" class="not" >
+                                                <h3 style="margin: 0px"><span><span class="fa fa-bell"></span>&nbsp;Notifications&nbsp;</span></h3>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a  href="{% url 'app:logout_user' %}" class="not" >
+                                                <h3 style="margin: 0px"><span><span class="fa fa-history"></span>&nbsp;Timeline&nbsp;</span></h3>
+                                            </a>
+                                        </li>
+                                        <li class="divider">
+
+                                        </li>
+                                        <li>
+                                            <a  href="{% url 'app:logout_user' %}" class="not" >
+                                                <h3 style="margin: 0px"><span><span class="fa fa-power-off"></span>&nbsp;Log out&nbsp</span></h3>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+
+                                <li>
+                                    <a class="alert-link not" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                                        <i class="fa fa-bell fa-2x"></i>
+                                        <span class="badge badge-sm badge-up danger" style="vertical-align: top">{% block notifications %}{% endblock %}</span>
+                                    </a>
+
+                                    <ul class="dropdown-menu" style="width: 100%">
+                                        <li class="dropdown-header" style="text-align: center"><i class="fa fa-bell"></i>&nbsp;Notifications
+                                            <span class="fa fa-close not" style="float: right; "></span></li>
+                                        {% block user_notifications %}
+
+                                        {% endblock %}
+                                        <li class="dropdown-header" style="text-align: center"><a href="#" class="btn-sm small clearfix">see all</a></li>
+                                    </ul>
+                                </li>
+                            <li>
+
+                                <a class="alert-link not" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-envelope fa-2x"></i>
+                                    <span class="badge badge-sm badge-up danger" style="vertical-align: top">{% block messages %}{% endblock %}</span>
+                                </a>
+                                <ul class="dropdown-menu" style="width: 100%;">
+                                    <li class="dropdown-header" style="text-align: center;"><i class="fa fa-envelope"></i>&nbsp;Messages
+                                        <span class="fa fa-close not" style="float: right; "></span></li>
+                               {% block user_messages %}
+
+                                        {% endblock %}
+                                    <li class="dropdown-header" style="text-align: center"><a href="#" class="btn-sm small clearfix">see all</a></li>
+                                </ul>
+
+
+                            </li>
+
+                            </ul>
+
+                        </div><!-- end .user-log -->
+                    </div><!-- end .col-sm-4 -->
+
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+
+                        <ul class="social-icons">
+                            <li>
+                                <a class="" href="https://s3.amazonaws.com/gonative/static/5783c9436256a59e1ab1ec8a/app-release.apk">
+                                    <i class="fa fa-android fa-2x"></i>&nbsp;
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div><!-- end .col-sm-8 -->
+
+                </div><!-- end .row -->
+            </div>
+        </section><!-- end .container -->
+
+    </div><!-- end .top-menu -->
+
+    <div class="main-baner">
+
+        <div class="background parallax clearfix" style="background-image:url({% static 'app/img/tumblr_n7yhhvUQtx1st5lhmo1_1280.jpg' %});" data-img-width="1600" data-img-height="1064">
+
+            <div class="main-parallax-content">
+
+                <div class="second-parallax-content">
+
+                    <section class="container">
+
+                        <div class="row">
+
+                            <div class="main-header-container clearfix">
+
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+
+                                    <div class="logo">
+                                        <h1>My ride</h1>
+                                    </div><!-- end .logo -->
+
+                                </div><!-- end .col-sm-4 -->
+
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+
+                                    <nav id="nav" class="main-navigation">
+
+                                        {% block navigation %}
+
+                                        {% endblock %}
+
+                                    </nav><!-- end .main-navigation -->
+
+                                </div><!-- end .col-md-8 -->
+
+                            </div><!-- end .main-header-container -->
+
+
+                        </div><!-- end .row -->
+
+                    </section><!-- end .container -->
+
+                </div><!-- end .second-parallax-content -->
+
+            </div><!-- end .main-parallax-content -->
+
+        </div><!-- end .background .parallax -->
+
+    </div><!-- end .main-baner -->
+
+</header><!-- end .header -->
+
+
+
+{% block body %}
+
+{% endblock %}
+
+<footer id="footer">
+
+    <div class="footer-copyright">
+
+        <div class="container">
+            <div class="row">
+
+
+                <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
+                    Copyright 2016 by Othree<br>
+                    <span >+234-902-0277-797 </span><br>
+                    <span >daviduchenna@outlook.com </span><br>
+
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
+                    Quick Links<br>
+                    <a href="{% url 'app:about' %}">About</a><br>
+                    <a href="{% url 'app:contact' %}">Contact</a><br>
+                    <a href="{% url 'app:login' %}">Login/Signup</a><br>
+                    <a href="http://www.theboynamedme.com">Blog</a><br>
+
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
+                    On Social Media<br>
+                    <a href="http://www.facebook.com/obi.uchenna.98"><i class="fa fa-facebook fa-2x"></i></a>&nbsp;
+                    <a href="http://www.instagram.com/obi_is_a_boi"><i class="fa fa-instagram fa-2x"></i></a>&nbsp;
+                    <a href="http://www.twitter.com/obi_is_a_boi"><i class="fa fa-twitter fa-2x"></i></a>&nbsp;
+                    <a href="http://www.github.com/othreecodes"><i class="fa fa-github-square fa-2x"></i></a>&nbsp;
+                </div>
+
+            </div><!-- end .row -->
+        </div><!-- end .container -->
+
+    </div><!-- end .footer-copyright -->
+
+</footer><!-- end #footer -->
+
+
+
+
+{% load staticfiles %}
+<!-- Javascript -->
+<script type="text/javascript" src={% static 'app/js/jquery.js' %} ></script>
+<!-- Bootstrap -->
+<script type="text/javascript" src={% static 'app/js/bootstrap.min.js' %}></script>
+<!-- Main jQuery -->
+<script type="text/javascript" src={% static 'app/js/jquery.main.js' %}></script>
+<!-- Form -->
+<script type="text/javascript" src={% static 'app/js/jquery.idealforms.min.js' %}></script>
+<script type="text/javascript" src={% static 'app/js/jquery.idealselect.min.js' %}></script>
+<script type="text/javascript" src={% static 'app/js/jquery-ui-1.10.4.custom.min.js' %}></script>
+<!-- Menu -->
+<script type="text/javascript" src={% static 'app/js/hoverIntent.js' %}></script>
+<script type="text/javascript" src={% static 'app/js/superfish.js' %}></script>
+<!-- Counter-Up  -->
+<script type="text/javascript" src="{% static 'app/js/waypoints.min.js' %}"></script>
+<script type="text/javascript" src={% static 'app/js/jquery.counterup.min.js' %}></script>
+
+<!-- Slicknav  -->
+<script type="text/javascript" src={% static 'app/js/jquery.slicknav.min.js' %}></script>
+<script src="{% static "app/dist/js/app.min.js" %}"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+{
+  "created_at": "2016-08-07T23:46:14.888Z",
+  "about": "twitter:@Obi_Is_A_Boi\r\nIG:@obi_is_a_boi\r\nwww.theboynamedme.com",
+  "context": {
+    "id": "dXNlcl9jb250ZAXh0OgGQZBPmZBLiZBsT1DlghLttfIdIZCXb4FEnmwxR0hhEJHodovPl0imiSZCUZACEoSxUnT86bDAoiXTjTZAPZCZBnD9iBZCBdZBpyeLZBdGvH3clOL4J6SVcuf8ZD",
+    "mutual_likes": {
+      "data": [],
+      "summary": {
+        "total_count": 100
+      }
+    }
+  },
+  "locale": "en_US",
+  "sub": "facebook|1236722223018328",
+  "updated_at": "2016-08-07T23:46:14.888Z",
+  "identities": [
+    {
+      "provider": "facebook",
+      "connection": "facebook",
+      "user_id": "1236722223018328",
+      "isSocial": true
+    }
+  ],
+  "is_verified": false,
+  "family_name": "G-\u0448\u043d\u0437\u0437z \u0426\u0441\u043d\u0435\u0438\u0438\u0434",
+  "picture_large": "https://scontent.xx.fbcdn.net/v/t1.0-1/13906973_1232204996803384_268878428013752819_n.jpg?oh=6f0fb969507c1fde69f3b03278796b72&oe=581F6786",
+  "user_id": "facebook|1236722223018328",
+  "third_party_id": "jPDHop4lPnpJy4tzSjEd1d1UzEQ",
+  "installed": true,
+  "verified": true,
+  "clientID": "Li1h8im1PjLRuZUl6JlUSYrRodwAabsQ",
+  "email_verified": true,
+  "nickname": "yurboiwiz",
+  "name": "D\u0434vid G-\u0448\u043d\u0437\u0437z \u0426\u0441\u043d\u0435\u0438\u0438\u0434",
+  "name_format": "{first} {last}",
+  "gender": "male",
+  "cover": {
+    "offset_y": 87,
+    "id": "1089518507738701",
+    "source": "https://scontent.xx.fbcdn.net/v/t1.0-9/p720x720/10381998_1089518507738701_9146285821749264853_n.jpg?oh=21c8a107076f0ac04f0d0ac18a82b66b&oe=585E5D91"
+  },
+  "link": "https://www.facebook.com/app_scoped_user_id/1236722223018328/",
+  "devices": [
+    {
+      "os": "Android"
+    }
+  ],
+  "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/13906973_1232204996803384_268878428013752819_n.jpg?oh=979cc78475c8196bcc9bb576666e0c42&oe=581B1BBC",
+  "given_name": "D\u0434vid",
+  "timezone": 1,
+  "age_range": {
+    "max": 20,
+    "min": 18
+  },
+  "updated_time": "2016-07-31T14:00:12+0000",
+  "bio": "twitter:@Obi_Is_A_Boi\r\nIG:@obi_is_a_boi\r\nwww.theboynamedme.com",
+  "email": "yurboiwiz@yahoo.com",
+  "location": {
+    "name": "Lagos, Nigeria",
+    "id": "106265246077413"
+  }
+}

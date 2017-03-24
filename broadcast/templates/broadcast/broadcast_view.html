@@ -1,0 +1,794 @@
+{% extends 'app/user/main_template.html' %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+            Broadcast
+            <small> - view broadcast</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="{% url 'broadcast:index' %}"><i class="fa fa-bullhorn"></i> Broadcast</a></li>
+            <li class="active"> View</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block body %}
+    {#    <script src="{% static 'app/js/pusher.min.js' %}"></script>#}
+    {#    <script>#}
+    {##}
+    {#        // Enable pusher logging - don't include this in production#}
+    {#        Pusher.logToConsole = true;#}
+    {##}
+    {#        var pusher = new Pusher('528a97eda2db586836e3', {#}
+    {#            encrypted: true#}
+    {#        });#}
+    {##}
+    {#        var channel = pusher.subscribe('test_channel');#}
+    {#        channel.bind('my_event', function(data) {#}
+    {#            alert(data.message);#}
+    {#        });#}
+    {#    </script>#}
+
+    <div class="content-wrapper" style="min-height: 1126px;">
+        <!-- Content Header (Page header) -->
+
+
+        <!-- Main content -->
+        <section class="content">
+
+
+            <div class="row">
+                <div class="col-md-3">
+
+
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    {% if broad.send_to_all %}
+                        <div class="box box-widget">
+                            <div class="box-header with-border">
+                                <div class="user-block">
+                                    <img class="img-circle lazy"
+                                         data-original="{{ broad.user.get_profile.picture.url }}" alt="User Image">
+                                    <a href="{{ broad.get_absolute_url }}" class="pull-right btn btn-xs bg-teal-active"><i
+                                            class="fa fa-eye"></i></a>
+                                    <button class="pull-right btn btn-xs bg-light-blue margin-r-5"><i
+                                            class="fa fa-share-alt"></i></button>
+                <span class="username"><a href="{{ broad.user.get_absolute_url }}">{{ broad.user.full_name }}
+                    {% if broad.user.is_verified %}<i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                </a>
+                    {% if not broad.bc_from %}
+                        {% if broad.source %}
+                            needs a ride
+
+                        {% elif broad.location %}
+                            needs directions
+                        {% endif %}
+                    {% endif %}
+                </span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.bc_time|time|upper }} {{ broad.bc_date|naturalday|capfirst }}</span>
+
+                                </div>
+                                <!-- /.user-block -->
+
+                                <!-- /.box-tools -->
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                {% if broad.message %}
+                                    {% if broad.bc_from %}
+                                        <blockquote>
+                                            <div class="user-block">
+                                                <img class="img-circle lazy"
+                                                     data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                     alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a></span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+                                            </div>
+                                            <p>{{ broad.message }}</p>
+
+                                        </blockquote>
+
+
+                                    {% else %}
+
+                                        <p>{{ broad.message }}</p>
+                                    {% endif %}
+
+
+                                {% elif broad.image %}
+
+                                    {% if broad.bc_from %}
+                                        <blockquote>
+                                            <div class="user-block">
+                                                <img class="img-circle lazy"
+                                                     data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                     alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a></span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+                                            </div>
+                                            <img class="img-responsive pad lazy" data-original="{{ broad.image.url }}"
+                                                 style="max-height: 320px" alt="Photo">
+
+                                            <p>{{ broad.description }}</p>
+                                        </blockquote>
+
+
+                                    {% else %}
+
+                                        <img class="img-responsive pad lazy" data-original="{{ broad.image.url }}"
+                                             style="max-height: 320px"
+                                             alt="Photo">
+                                        <p>{{ broad.description }}</p>
+                                    {% endif %}
+
+
+                                {% elif broad.source %}
+
+                                    {% if broad.bc_from %}
+                                        <blockquote>
+                                            <div class="user-block">
+                                                <img class="img-circle lazy"
+                                                     data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                     alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a>
+                            needs a ride</span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+
+                                            </div>
+                                            <h4>I need a ride
+                                                from&nbsp;{{ broad.source }}&nbsp;to&nbsp;{{ broad.source }}</h4>
+
+                                            <p>in {{ broad.date_needed|timeuntil }}</p>
+
+                                        </blockquote>
+
+
+                                    {% else %}
+                                        <h4>I need a ride
+                                            from&nbsp;{{ broad.source }}&nbsp;to&nbsp;{{ broad.source }}</h4>
+                                        <p>in {{ broad.date_needed|timeuntil }}</p>
+
+
+                                    {% endif %}
+
+                                {% elif broad.location %}
+                                    {% if broad.bc_from %}
+                                        <blockquote>
+                                            <div class="user-block">
+                                                <img class="img-circle lazy"
+                                                     data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                     alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a>
+                            needs directions</span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+
+                                            </div>
+                                            <h4>How can I get
+                                                to&nbsp;{{ broad.destination }}&nbsp;from&nbsp;{{ broad.location }}</h4>
+
+                                            <p>{{ broad.additional_info }}</p>
+
+                                        </blockquote>
+
+
+                                    {% else %}
+                                        <h4>How can I get
+                                            to&nbsp;{{ broad.destination }}&nbsp;from&nbsp;{{ broad.location }}</h4>
+
+                                        <p>{{ broad.additional_info }}</p>
+
+
+                                    {% endif %}
+                                {% endif %}
+
+                                <a href="{% url 'broadcast:rebc' broad.id %}" role="button" class="  btn-xs">
+                                    <i class="fa fa-share"></i>&nbsp;Re-bc</a>
+
+
+                                {% if request.user.id in broad.liked %}
+                                    <button type="button" class="btn btn-success btn-xs" onclick="like({{ broad.pk }})"
+                                            id="broad{{ broad.pk }}" name="liked">
+                                    <i class="fa fa-thumbs-o-up"></i>&nbsp;Liked&nbsp;
+                                    <span id="like-count{{ broad.pk }}"
+                                          class="badge">{{ broad.broadcast_like.count }}</span>
+                                {% else %}
+                                    <button type="button" class="btn btn-primary btn-xs" onclick="like({{ broad.pk }})"
+                                            id="broad{{ broad.pk }}" name="like">
+                                    <i class="fa fa-thumbs-o-up"></i>&nbsp;Like&nbsp;
+                                    <span id="like-count{{ broad.pk }}"
+                                          class="badge">{{ broad.broadcast_like.count }}</span>
+                                {% endif %}
+                                </button>
+                                <span class="pull-right text-muted">{{ broad.broadcast_comment.count }}&nbsp;
+                comment{{ broad.broadcast_comment.count|pluralize }}</span>
+                            </div>
+
+
+                            <!-- /.box-body -->
+                            {% if broad.broadcast_comment.count > 0 %}
+                                <div class="box-footer box-comments">
+                                    {% for comment in broad.broadcast_comment.all %}
+
+                                        <!-- /.box-comment -->
+                                        <div class="box-comment">
+                                            <!-- User image -->
+                                            <img class="img-circle img-sm lazy"
+                                                 data-original="{{ comment.commenter.get_profile.picture.url }}"
+                                                 alt="User Image">
+
+                                            <div class="comment-text">
+                      <span class="username">
+                        <a href="{{ comment.commenter.get_absolute_url }}">{{ comment.commenter.full_name }}
+                            {% if comment.commenter.is_verified %}
+                                <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                        </a>
+                        <span class="text-muted pull-right">{{ comment.time|time|upper }}&nbsp;{{ comment.date|naturalday|capfirst }}</span>
+                      </span><!-- /.username -->
+                                                {{ comment.comment }}
+                                            </div>
+                                            <!-- /.comment-text -->
+                                        </div>
+                                        <!-- /.box-comment -->
+
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <!-- /.box-footer -->
+                            <div class="box-footer">
+                                <form action="{% url 'broadcast:comment' broad.id %}" method="post">
+                                    {% csrf_token %}
+                                    <img class="img-responsive img-circle img-sm lazy"
+                                         data-original="{{ request.user.get_profile.picture.url }}"
+                                         alt="Profile Picture">
+                                    <!-- .img-push is used to add margin to elements next to floating images -->
+                                    <div class="img-push">
+                                        <input type="text" name="comment" class="form-control input-sm"
+                                               placeholder="Press enter to post comment">
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.box-footer -->
+                        </div>
+
+                    {% else %}
+                        {% if request.user in broad.user.get_following %}
+                            <div class="box box-widget">
+                                <div class="box-header with-border">
+                                    <div class="user-block">
+                                        <img class="img-circle lazy"
+                                             data-original="{{ broad.user.get_profile.picture.url }}" alt="User Image">
+                                        <a href="{{ broad.get_absolute_url }}"
+                                           class="pull-right btn btn-xs bg-teal-active"><i
+                                                class="fa fa-eye"></i></a>
+                                        <button class="pull-right btn btn-xs bg-light-blue margin-r-5"><i
+                                                class="fa fa-share-alt"></i></button>
+                <span class="username"><a href="{{ broad.user.get_absolute_url }}">{{ broad.user.full_name }}
+                    {% if broad.user.is_verified %}<i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                </a>
+                    {% if not broad.bc_from %}
+                        {% if broad.source %}
+                            needs a ride
+
+                        {% elif broad.location %}
+                            needs directions
+                        {% endif %}
+                    {% endif %}
+                </span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.bc_time|time|upper }} {{ broad.bc_date|naturalday|capfirst }}</span>
+
+                                    </div>
+                                    <!-- /.user-block -->
+
+                                    <!-- /.box-tools -->
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    {% if broad.message %}
+                                        {% if broad.bc_from %}
+                                            <blockquote>
+                                                <div class="user-block">
+                                                    <img class="img-circle lazy"
+                                                         data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                         alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a></span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+                                                </div>
+                                                <p>{{ broad.message }}</p>
+
+                                            </blockquote>
+
+
+                                        {% else %}
+
+                                            <p>{{ broad.message }}</p>
+                                        {% endif %}
+
+
+                                    {% elif broad.image %}
+
+                                        {% if broad.bc_from %}
+                                            <blockquote>
+                                                <div class="user-block">
+                                                    <img class="img-circle lazy"
+                                                         data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                         alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a></span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+                                                </div>
+                                                <img class="img-responsive pad lazy"
+                                                     data-original="{{ broad.image.url }}"
+                                                     style="max-height: 320px" alt="Photo">
+
+                                                <p>{{ broad.description }}</p>
+                                            </blockquote>
+
+
+                                        {% else %}
+
+                                            <img class="img-responsive pad lazy" data-original="{{ broad.image.url }}"
+                                                 style="max-height: 320px"
+                                                 alt="Photo">
+                                            <p>{{ broad.description }}</p>
+                                        {% endif %}
+
+
+                                    {% elif broad.source %}
+
+                                        {% if broad.bc_from %}
+                                            <blockquote>
+                                                <div class="user-block">
+                                                    <img class="img-circle lazy"
+                                                         data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                         alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a>
+                            needs a ride</span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+
+                                                </div>
+                                                <h4>I need a ride
+                                                    from&nbsp;{{ broad.source }}&nbsp;to&nbsp;{{ broad.source }}</h4>
+
+                                                <p>in {{ broad.date_needed|timeuntil }}</p>
+
+                                            </blockquote>
+
+
+                                        {% else %}
+                                            <h4>I need a ride
+                                                from&nbsp;{{ broad.source }}&nbsp;to&nbsp;{{ broad.source }}</h4>
+                                            <p>in {{ broad.date_needed|timeuntil }}</p>
+
+
+                                        {% endif %}
+
+                                    {% elif broad.location %}
+                                        {% if broad.bc_from %}
+                                            <blockquote>
+                                                <div class="user-block">
+                                                    <img class="img-circle lazy"
+                                                         data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                         alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a>
+                            needs directions</span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+
+                                                </div>
+                                                <h4>How can I get
+                                                    to&nbsp;{{ broad.destination }}&nbsp;from&nbsp;{{ broad.location }}</h4>
+
+                                                <p>{{ broad.additional_info }}</p>
+
+                                            </blockquote>
+
+
+                                        {% else %}
+                                            <h4>How can I get
+                                                to&nbsp;{{ broad.destination }}&nbsp;from&nbsp;{{ broad.location }}</h4>
+
+                                            <p>{{ broad.additional_info }}</p>
+
+
+                                        {% endif %}
+                                    {% endif %}
+
+                                    <a href="{% url 'broadcast:rebc' broad.id %}" role="button" class="  btn-xs">
+                                        <i class="fa fa-share"></i>&nbsp;Re-bc</a>
+
+
+                                    {% if request.user.id in broad.liked %}
+                                        <button type="button" class="btn btn-success btn-xs"
+                                                onclick="like({{ broad.pk }})"
+                                                id="broad{{ broad.pk }}" name="liked">
+                                        <i class="fa fa-thumbs-o-up"></i>&nbsp;Liked&nbsp;
+                                        <span id="like-count{{ broad.pk }}"
+                                              class="badge">{{ broad.broadcast_like.count }}</span>
+                                    {% else %}
+                                        <button type="button" class="btn btn-primary btn-xs"
+                                                onclick="like({{ broad.pk }})"
+                                                id="broad{{ broad.pk }}" name="like">
+                                        <i class="fa fa-thumbs-o-up"></i>&nbsp;Like&nbsp;
+                                        <span id="like-count{{ broad.pk }}"
+                                              class="badge">{{ broad.broadcast_like.count }}</span>
+                                    {% endif %}
+                                    </button>
+                                    <span class="pull-right text-muted">{{ broad.broadcast_comment.count }}&nbsp;
+                comment{{ broad.broadcast_comment.count|pluralize }}</span>
+                                </div>
+
+
+                                <!-- /.box-body -->
+                                {% if broad.broadcast_comment.count > 0 %}
+                                    <div class="box-footer box-comments">
+                                        {% for comment in broad.broadcast_comment.all %}
+
+                                            <!-- /.box-comment -->
+                                            <div class="box-comment">
+                                                <!-- User image -->
+                                                <img class="img-circle img-sm lazy"
+                                                     data-original="{{ comment.commenter.get_profile.picture.url }}"
+                                                     alt="User Image">
+
+                                                <div class="comment-text">
+                      <span class="username">
+                        <a href="{{ comment.commenter.get_absolute_url }}">{{ comment.commenter.full_name }}
+                            {% if comment.commenter.is_verified %}
+                                <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                        </a>
+                        <span class="text-muted pull-right">{{ comment.time|time|upper }}&nbsp;{{ comment.date|naturalday|capfirst }}</span>
+                      </span><!-- /.username -->
+                                                    {{ comment.comment }}
+                                                </div>
+                                                <!-- /.comment-text -->
+                                            </div>
+                                            <!-- /.box-comment -->
+
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <!-- /.box-footer -->
+                                <div class="box-footer">
+                                    <form action="{% url 'broadcast:comment' broad.id %}" method="post">
+                                        {% csrf_token %}
+                                        <img class="img-responsive img-circle img-sm lazy"
+                                             data-original="{{ request.user.get_profile.picture.url }}"
+                                             alt="Profile Picture">
+                                        <!-- .img-push is used to add margin to elements next to floating images -->
+                                        <div class="img-push">
+                                            <input type="text" name="comment" class="form-control input-sm"
+                                                   placeholder="Press enter to post comment">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.box-footer -->
+                            </div>
+
+                        {% elif request.user == broad.user %}
+                            <div class="box box-widget">
+                                <div class="box-header with-border">
+                                    <div class="user-block">
+                                        <img class="img-circle lazy"
+                                             data-original="{{ broad.user.get_profile.picture.url }}" alt="User Image">
+                                        <a href="{{ broad.get_absolute_url }}"
+                                           class="pull-right btn btn-xs bg-teal-active"><i
+                                                class="fa fa-eye"></i></a>
+                                        <button class="pull-right btn btn-xs bg-light-blue margin-r-5"><i
+                                                class="fa fa-share-alt"></i></button>
+                <span class="username"><a href="{{ broad.user.get_absolute_url }}">{{ broad.user.full_name }}
+                    {% if broad.user.is_verified %}<i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                </a>
+                    {% if not broad.bc_from %}
+                        {% if broad.source %}
+                            needs a ride
+
+                        {% elif broad.location %}
+                            needs directions
+                        {% endif %}
+                    {% endif %}
+                </span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.bc_time|time|upper }} {{ broad.bc_date|naturalday|capfirst }}</span>
+
+                                    </div>
+                                    <!-- /.user-block -->
+
+                                    <!-- /.box-tools -->
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    {% if broad.message %}
+                                        {% if broad.bc_from %}
+                                            <blockquote>
+                                                <div class="user-block">
+                                                    <img class="img-circle lazy"
+                                                         data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                         alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a></span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+                                                </div>
+                                                <p>{{ broad.message }}</p>
+
+                                            </blockquote>
+
+
+                                        {% else %}
+
+                                            <p>{{ broad.message }}</p>
+                                        {% endif %}
+
+
+                                    {% elif broad.image %}
+
+                                        {% if broad.bc_from %}
+                                            <blockquote>
+                                                <div class="user-block">
+                                                    <img class="img-circle lazy"
+                                                         data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                         alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a></span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+                                                </div>
+                                                <img class="img-responsive pad lazy"
+                                                     data-original="{{ broad.image.url }}"
+                                                     style="max-height: 320px" alt="Photo">
+
+                                                <p>{{ broad.description }}</p>
+                                            </blockquote>
+
+
+                                        {% else %}
+
+                                            <img class="img-responsive pad lazy" data-original="{{ broad.image.url }}"
+                                                 style="max-height: 320px"
+                                                 alt="Photo">
+                                            <p>{{ broad.description }}</p>
+                                        {% endif %}
+
+
+                                    {% elif broad.source %}
+
+                                        {% if broad.bc_from %}
+                                            <blockquote>
+                                                <div class="user-block">
+                                                    <img class="img-circle lazy"
+                                                         data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                         alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a>
+                            needs a ride</span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+
+                                                </div>
+                                                <h4>I need a ride
+                                                    from&nbsp;{{ broad.source }}&nbsp;to&nbsp;{{ broad.source }}</h4>
+
+                                                <p>in {{ broad.date_needed|timeuntil }}</p>
+
+                                            </blockquote>
+
+
+                                        {% else %}
+                                            <h4>I need a ride
+                                                from&nbsp;{{ broad.source }}&nbsp;to&nbsp;{{ broad.source }}</h4>
+                                            <p>in {{ broad.date_needed|timeuntil }}</p>
+
+
+                                        {% endif %}
+
+                                    {% elif broad.location %}
+                                        {% if broad.bc_from %}
+                                            <blockquote>
+                                                <div class="user-block">
+                                                    <img class="img-circle lazy"
+                                                         data-original="{{ broad.bc_from.get_profile.picture.url }}"
+                                                         alt="User Image">
+                            <span class="username"><a
+                                    href="{{ broad.bc_from.get_absolute_url }}">{{ broad.bc_from.full_name }}
+                                {% if broad.bc_from.is_verified %}
+                                    <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                            </a>
+                            needs directions</span>
+                                <span class="description"> {% if broad.send_to_all %}<i class="fa fa-globe"></i>&nbsp;
+                                    Shared Publicly {% else %}
+                                    <i class="fa fa-users"></i>&nbsp;Shared with Followers {% endif %}
+                                    - {{ broad.time|time|upper }} {{ broad.date|naturalday|capfirst }}</span>
+
+                                                </div>
+                                                <h4>How can I get
+                                                    to&nbsp;{{ broad.destination }}&nbsp;from&nbsp;{{ broad.location }}</h4>
+
+                                                <p>{{ broad.additional_info }}</p>
+
+                                            </blockquote>
+
+
+                                        {% else %}
+                                            <h4>How can I get
+                                                to&nbsp;{{ broad.destination }}&nbsp;from&nbsp;{{ broad.location }}</h4>
+
+                                            <p>{{ broad.additional_info }}</p>
+
+
+                                        {% endif %}
+                                    {% endif %}
+
+                                    <a href="{% url 'broadcast:rebc' broad.id %}" role="button" class="  btn-xs">
+                                        <i class="fa fa-share"></i>&nbsp;Re-bc</a>
+
+
+                                    {% if request.user.id in broad.liked %}
+                                        <button type="button" class="btn btn-success btn-xs"
+                                                onclick="like({{ broad.pk }})"
+                                                id="broad{{ broad.pk }}" name="liked">
+                                        <i class="fa fa-thumbs-o-up"></i>&nbsp;Liked&nbsp;
+                                        <span id="like-count{{ broad.pk }}"
+                                              class="badge">{{ broad.broadcast_like.count }}</span>
+                                    {% else %}
+                                        <button type="button" class="btn btn-primary btn-xs"
+                                                onclick="like({{ broad.pk }})"
+                                                id="broad{{ broad.pk }}" name="like">
+                                        <i class="fa fa-thumbs-o-up"></i>&nbsp;Like&nbsp;
+                                        <span id="like-count{{ broad.pk }}"
+                                              class="badge">{{ broad.broadcast_like.count }}</span>
+                                    {% endif %}
+                                    </button>
+                                    <span class="pull-right text-muted">{{ broad.broadcast_comment.count }}&nbsp;
+                comment{{ broad.broadcast_comment.count|pluralize }}</span>
+                                </div>
+
+
+                                <!-- /.box-body -->
+                                {% if broad.broadcast_comment.count > 0 %}
+                                    <div class="box-footer box-comments">
+                                        {% for comment in broad.broadcast_comment.all %}
+
+                                            <!-- /.box-comment -->
+                                            <div class="box-comment">
+                                                <!-- User image -->
+                                                <img class="img-circle img-sm lazy"
+                                                     data-original="{{ comment.commenter.get_profile.picture.url }}"
+                                                     alt="User Image">
+
+                                                <div class="comment-text">
+                      <span class="username">
+                        <a href="{{ comment.commenter.get_absolute_url }}">{{ comment.commenter.full_name }}
+                            {% if comment.commenter.is_verified %}
+                                <i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+                        </a>
+                        <span class="text-muted pull-right">{{ comment.time|time|upper }}&nbsp;{{ comment.date|naturalday|capfirst }}</span>
+                      </span><!-- /.username -->
+                                                    {{ comment.comment }}
+                                                </div>
+                                                <!-- /.comment-text -->
+                                            </div>
+                                            <!-- /.box-comment -->
+
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <!-- /.box-footer -->
+                                <div class="box-footer">
+                                    <form action="{% url 'broadcast:comment' broad.id %}" method="post">
+                                        {% csrf_token %}
+                                        <img class="img-responsive img-circle img-sm lazy"
+                                             data-original="{{ request.user.get_profile.picture.url }}"
+                                             alt="Profile Picture">
+                                        <!-- .img-push is used to add margin to elements next to floating images -->
+                                        <div class="img-push">
+                                            <input type="text" name="comment" class="form-control input-sm"
+                                                   placeholder="Press enter to post comment">
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.box-footer -->
+                            </div>
+                        {% else %}
+                            <div class="callout callout-danger">
+                                <h4>Nothing to see here&nbsp;<i class="fa fa-exclamation"></i></h4>
+
+                                <p>You not allowed to view this broadcast</p>
+                            </div>
+                        {% endif %}
+
+                    {% endif %}
+
+
+                </div>
+                <!-- /.col -->
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <script src="{% static 'broadcast/broadcast.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'app/dashboard/dashboard_template.html' %}
+{% load humanize %}
+{% block heading %}
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Notifications</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+            <li class="active">&nbsp;Notifications</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+<section class="content">
+
+    <ul class="timeline">
+
+        {% for notif in notifications %}
+            {% ifchanged notif.timestamp|naturalday|naturaltime %}
+            <li class="time-label">
+                  <span class="bg-red">
+                    {{ notif.timestamp|naturalday|naturaltime|capfirst }}
+                  </span>
+            </li>
+            {% endifchanged %}
+            <li>
+
+                <!-- timeline icon -->
+                <i class="fa label-{{ notif.level }}"></i>
+                <div class="timeline-item">
+                    <span class="time"><i class="fa fa-clock-o"></i> {{ notif.timestamp|time }}</span>
+
+                    <h3 class="timeline-header"><a href="{{ notif.actor.get_absolute_url }}">{{ notif.actor|capfirst }}&nbsp;{{ notif.verb }}</a> </h3>
+
+                    <div class="timeline-body">
+                       {{ notif.description }}
+                    </div>
+                    {% if notif.action_object %}
+                    <div class="timeline-footer">
+                        <a class="btn btn-primary btn-xs" href="{{ notif.action_object.get_absolute_url }}">View</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </li>
+            {% empty %}
+            <ul class="timeline">
+
+                <!-- /.timeline-label -->
+
+                <!-- timeline item -->
+                <li>
+                    <!-- timeline icon -->
+                    <i class="glyphicon glyphicon-trash bg-red"></i>
+                    <div class="timeline-item">
+                        <h3 class="timeline-header text-bold">No new notifications</h3>
+
+                        <div class="timeline-body">
+
+                            <div class="btn-group">
+                                <button type="button" class="btn bg-olive btn-flat margin btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Load Previous&nbsp;<span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li> <a  role="button" class="btn bg-olive btn-flat margin ">
+                                        Week</a></li>
+                                    <li> <a  role="button" class="btn bg-olive btn-flat margin ">
+                                        Month</a></li>
+                                    <li> <a  role="button" class="btn bg-olive btn-flat margin ">
+                                        Year</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </li>
+                <!-- END timeline item -->
+
+                ...
+
+            </ul>
+
+        {% endfor %}
+        <!-- timeline time label -->
+
+
+    </ul>
+
+
+    </section>
+    <script>
+        window.onload = function(){
+            var data = new XMLHttpRequest();
+            data.open("GET", '/inbox/notifications/mark-all-as-read/', true);
+            data.send();
+        }
+
+
+    </script>
+{% endblock %}

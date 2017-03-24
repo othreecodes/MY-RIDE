@@ -1,0 +1,18 @@
+
+
+                                        <ul class="navigation">
+                                            <li>
+                                                <a href="{% url 'app:index' %}">Home</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'app:user_update' request.user.id %}">Edit Profile</a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'app:search_ride' request.user.id %}">Search Vehicle</a>
+                                            </li>
+
+                                            <li>
+                                                <a href="{% url 'app:requests_user_view' request.user.id %}">View Requested Vehicles</a>
+                                            </li>
+                                        </ul>
+

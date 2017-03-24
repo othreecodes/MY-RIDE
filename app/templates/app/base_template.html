@@ -1,239 +1,148 @@
 <!DOCTYPE html>
-<html lang="en">
+{% load static %}
+<html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load staticfiles %}
-    <!-- Styles -->
-
-    <!-- Bootstrap -->
-    <link type="text/css" href="{% static 'app/css/bootstrap.min.css' %}" rel="stylesheet">
-    <!-- Forms -->
-    <link type="text/css" href="{% static 'app/css/jquery.idealforms.css' %}" rel="stylesheet">
-    <!-- Select  -->
-    <link type="text/css" href={% static 'app/css/jquery.idealselect.css' %} rel="stylesheet">
-    <!-- Slicknav  -->
-    <link type="text/css" href={% static 'app/css/slicknav.css' %} rel="stylesheet">
-    <!-- Main style -->
-    <link type="text/css" href={% static 'app/css/style.css' %} rel="stylesheet">
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MY RIDE</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="{% static "app/bootstrap/css/bootstrap.min.css" %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="{% static 'app/plugins/select2/select2.min.css' %}"/>
+    <!-- Ionicons -->
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static "app/dist/css/AdminLTE.min.css" %}">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'app/icons/apple-icon-57x57.png' %}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'app/icons/apple-icon-60x60.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'app/icons/apple-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'app/icons/apple-icon-76x76.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'app/icons/apple-icon-114x114.png' %}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'app/icons/apple-icon-120x120.png' %}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'app/icons/apple-icon-144x144.png' %}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'app/icons/apple-icon-152x152.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'app/icons/apple-icon-180x180.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{% static 'app/icons/android-icon-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'app/icons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'app/icons/favicon-96x96.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'app/icons/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'app/icons/manifest.json' %}">
+    <link rel="icon" href="{% static 'app/icons/favicon.ico' %}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{% static 'app/icons/ms-icon-144x144.png' %}">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="{% static "app/dist/css/skins/app-skin.css" %}">
+    <link rel="stylesheet" href="{% static "app/plugins/timepicker/bootstrap-timepicker.min.css" %}">
+    <link rel="stylesheet" href="{% static "app/plugins/datepicker/datepicker3.css" %}">
+    <link rel="stylesheet" href="{% static "app/plugins/datatables/dataTables.bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static 'app/plugins/slippry/slippry.css' %}">
     <!-- Modernizr -->
     <script src={% static 'app/js/modernizr.js' %}></script>
 
     <!-- Fonts -->
     <link type="text/css" href={% static 'app/css/font-awesome.min.css' %} rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
-    <title>MY RIDE</title>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
-<body>
-<header class="header">
 
-    <div class="top-menu">
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+    {% load humanize %}
+    <!-- Main Header -->
+        {% include 'app/header.html' %}
 
-        <section class="container">
-            <div class="row">
+    <!-- Left side column. contains the logo and sidebar -->
 
-                <div class="col-md-4 col-sm-4 col-xs-12">
-                    <div class="user-log">
+    <!-- Content Wrapper. Contains page content -->
 
-                        <a data-toggle="modal" data-target="#loginModal">
-                            Log in
-                        </a> /
-                        <a data-toggle="modal" href="{% url 'app:sign_up' %}">
-                            Sign up
-                        </a>
-
-                    </div><!-- end .user-log -->
-                </div><!-- end .col-sm-4 -->
-
-                <div class="col-md-8 col-sm-8 col-xs-12">
-
-                    <ul class="social-icons">
-                        <li>
-                            <a class="" href="https://s3.amazonaws.com/gonative/static/5783c9436256a59e1ab1ec8a/app-release.apk">
-                                <i class="fa fa-android fa-2x"></i>&nbsp;
-                            </a>
-                        </li>
-
-                    </ul>
-
-                </div><!-- end .col-sm-8 -->
-
-            </div><!-- end .row -->
-        </section><!-- end .container -->
-
-    </div><!-- end .top-menu -->
-
-    <div class="main-baner">
-
-        <div class="background parallax clearfix" style="background-image:url({% static 'app/img/tumblr_n7yhhvUQtx1st5lhmo1_1280.jpg'%});" data-img-width="1600" data-img-height="1064">
-
-            <div class="main-parallax-content">
-
-                <div class="second-parallax-content">
-
-                    <section class="container">
-
-                        <div class="row">
-
-                            <div class="main-header-container clearfix">
-
-                                <div class="col-md-4 col-sm-12 col-xs-12">
-
-                                    <div class="logo">
-                                        <h1>My ride</h1>
-                                    </div><!-- end .logo -->
-
-                                </div><!-- end .col-sm-4 -->
-
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-
-                                    <nav id="nav" class="main-navigation">
-
-                                        <ul class="navigation">
-                                            <li>
-                                                <a href="{% url 'app:index' %}">Home</a>
-                                            </li>
-                                            <li>
-                                                <a href="{% url 'app:ride' %}">ride</a>
-                                            </li>
-                                            <li>
-                                                <a href="{% url 'app:about' %}">About</a>
-                                            </li>
-                                            <li>
-                                                <a href="http://www.theboynamedme.com">Blog</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Contact</a>
-                                            </li>
-                                        </ul>
-
-                                    </nav><!-- end .main-navigation -->
-
-                                </div><!-- end .col-md-8 -->
-
-                            </div><!-- end .main-header-container -->
-
-
-                        </div><!-- end .row -->
-
-                    </section><!-- end .container -->
-
-                </div><!-- end .second-parallax-content -->
-
-            </div><!-- end .main-parallax-content -->
-
-        </div><!-- end .background .parallax -->
-
-    </div><!-- end .main-baner -->
-
-</header><!-- end .header -->
-
-
-{% block body %}
-
-{% endblock %}
-
-<footer id="footer">
-
-    <div class="footer-copyright">
-
+    <div class="content-wrapper" style="min-height: 144px;">
         <div class="container">
-            <div class="row">
-
-                <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
-                    Copyright 2016 by Othree<br>
-                    <span >+234-902-0277-797 </span><br>
-                    <span >daviduchenna@outlook.com </span><br>
-
-                </div>
-
-                <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
-                    Quick Links<br>
-                    <a href="{% url 'app:about' %}">About</a><br>
-                    <a href="{% url 'app:contact' %}">Contact</a><br>
-                    <a href="{% url 'app:login' %}">Login/Signup</a><br>
-                    <a href="http://www.theboynamedme.com">Blog</a><br>
-
-                </div>
-                <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
-                    On Social Media<br>
-                    <a href="http://www.facebook.com/obi.uchenna.98"><i class="fa fa-facebook fa-2x"></i></a>&nbsp;
-                    <a href="http://www.instagram.com/obi_is_a_boi"><i class="fa fa-instagram fa-2x"></i></a>&nbsp;
-                    <a href="http://www.twitter.com/obi_is_a_boi"><i class="fa fa-twitter fa-2x"></i></a>&nbsp;
-                </div>
-
-            </div><!-- end .row -->
-        </div><!-- end .container -->
-
-    </div><!-- end .footer-copyright -->
-
-</footer><!-- end #footer -->
-
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div><!-- end .modal-header -->
-                                    {% if error_message %}
-                                        <p class="error alert-danger"><strong>{{ error_message }}</strong></p>
-                                    {% endif %}
-            <div class="modal-body">
-                <form action="{% url 'app:login_user' %}" novalidate autocomplete="off" class="idealforms login" method="post" >
-                     {% csrf_token %}
-                    <div class="log-header">
-                        <span class="log-in">Log in</span>
-                    </div>
-
-                    <div class="field">
-                        <input name="username" type="text" placeholder="Username">
-                        <span class="error"></span>
-                    </div>
-
-                    <div class="field">
-                        <input type="password" name="password" placeholder="Password">
-                        <span class="error"></span>
-                    </div>
-
-                    <div class="field buttons">
-                        <button type="submit" class="submit btn green-color">Log in</button>
-                    </div>
+            {% block body %}
 
 
-                    <div class="clearfix"></div>
-
-                </form><!-- end .login -->
-            </div><!-- end .modal-body -->
-
-        </div><!-- end .modal-content -->
-    </div><!-- end .modal-dialog -->
-</div><!-- end .modal -->
+            {% endblock %}
+            <!-- /.content -->
+        </div>
+        <!-- /.container -->
+    </div>
 
 
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            <a href="{% url 'app:about' %}">About</a> |
+            {% if not request.user.is_authenticated %}
+            <a href="{% url 'app:login' %}">Login</a> |
+            <a href="{% url 'app:sign_up' %}">Sign Up</a> |
+             {% endif %}
+            <a href="http://www.theboynamedme.com">Blog</a> |
+
+        </div>
+        <!-- Default to the left -->
+     <a href="{% url 'app:about' %}">Terms of Service</a> |
+    <a href="{% url 'app:about' %}">Privacy</a>
+    </footer>
 
 
-{% load staticfiles %}
-<!-- Javascript -->
-<script type="text/javascript" src={% static 'app/js/jquery.js' %} ></script>
-<!-- Bootstrap -->
-<script type="text/javascript" src={% static 'app/js/bootstrap.min.js' %}></script>
-<!-- Main jQuery -->
-<script type="text/javascript" src={% static 'app/js/jquery.main.js' %}></script>
-<!-- Form -->
-<script type="text/javascript" src={% static 'app/js/jquery.idealforms.min.js' %}></script>
-<script type="text/javascript" src={% static 'app/js/jquery.idealselect.min.js' %}></script>
-<script type="text/javascript" src={% static 'app/js/jquery-ui-1.10.4.custom.min.js' %}></script>
-<!-- Menu -->
-<script type="text/javascript" src={% static 'app/js/hoverIntent.js' %}></script>
-<script type="text/javascript" src={% static 'app/js/superfish.js' %}></script>
-<!-- Counter-Up  -->
-<script type="text/javascript" src="{% static 'app/js/waypoints.min.js' %}"></script>
-<script type="text/javascript" src={% static 'app/js/jquery.counterup.min.js' %}></script>
+</div>
+<!-- ./wrapper -->
 
-<!-- Slicknav  -->
-<script type="text/javascript" src={% static 'app/js/jquery.slicknav.min.js' %}></script>
+<!-- REQUIRED JS SCRIPTS -->
 
+<!-- jQuery 2.2.3 -->
+<script src="{% static "app/plugins/jQuery/jquery-2.2.3.min.js" %}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="{% static "app/bootstrap/js/bootstrap.min.js" %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static "app/dist/js/app.min.js" %}"></script>
+
+<script src="{% static 'app/js/jquery.lazyload.js' %}"></script>
+
+<script src="{% static 'app/plugins/slimScroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'app/plugins/slippry/slippry.min.js' %}"></script>
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. Slimscroll is required when using the
+     fixed layout. -->
+<script>
+
+        $(function() {
+            $("img.lazy").lazyload();
+        });
+
+    $('#news-demo').slippry({
+  // general elements & wrapper
+  slippryWrapper: '<div class="sy-box news-slider" />', // wrapper to wrap everything, including pager
+  elements: 'article', // elments cointaining slide content
+
+  // options
+  adaptiveHeight: false, // height of the sliders adapts to current
+  captions: false,
+
+  // pager
+  // transitions
+  transition: 'fade', // fade, horizontal, kenburns, false
+  speed: 1200,
+  pause: 3000,
+
+  // slideshow
+  autoDirection: 'prev'
+});
+
+
+</script>
 
 </body>
 </html>

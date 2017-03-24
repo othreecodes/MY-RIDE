@@ -1,19 +1,19 @@
-{% extends 'app/user_template.html' %}
+{% extends 'app/user/main_template.html' %}
+{% load staticfiles %}
+{% block cont-header %}
+    <section class="content-header">
 
-{% block username %}
-    {{ request.user.username }}
-{% endblock %}
-{% block navigation %}
-    {% if request.user.user_type == 'Driver' %}
-        {% include 'app/driver_template.html' %}
-    {% elif request.user.user_type == 'Passenger' %}
-        {% include 'app/passenger_template.html' %}
-    {% endif %}
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 
+            <li class="active">Contact</li>
+        </ol>
+    </section>
 {% endblock %}
+
 
 {% block body %}
-    <section class="main-content">
+    <section class="main-content" id="content">
 
         <div class="container">
             <div class="row">
@@ -34,24 +34,24 @@
                             <h2 class="alert-success alert" style="text-align: center">Your Message has been sent successfully</h2>
                         {% endif %}
                    <form id="cantact-form" action="#" validate autocomplete="off" method="post" class="idealforms">
-{% csrf_token %}
+                    {% csrf_token %}
                             <div class="field">
-                                <input name="username" type="text" placeholder="Name" value="{{ request.user.full_name }}" required>
+                                <input name="username" type="text" class="form-control" placeholder="Name" value="{{ request.user.full_name }}" required>
                                 <span class="error"></span>
                             </div>
 
                             <div class="field">
-                                <input name="email" type="email" placeholder="Email address" value="{{ request.user.email }}" required>
+                                <input name="email" type="email" class="form-control" placeholder="Email address" value="{{ request.user.email }}" required>
                                 <span class="error"></span>
                             </div>
 
                             <div class="field">
-                                <input  name="website" type="text"  placeholder="Website" >
+                                <input  name="website" type="text" class="form-control" placeholder="Website" >
                                 <span class="error"></span>
                             </div>
 
                             <div class="full-fild">
-                                <textarea name="message" id="message" cols="5" placeholder="Message" rows="4" required></textarea>
+                                <textarea name="message" id="message" class="form-control" cols="5" placeholder="Message" rows="4" required></textarea>
                             </div>
 
                             <div class="field buttons">

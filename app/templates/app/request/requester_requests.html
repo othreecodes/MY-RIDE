@@ -1,0 +1,109 @@
+{% extends 'app/user/main_template.html' %}
+{% load staticfiles %}
+
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+           All requested rides <small> - {{ request.user.username }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-home"></i> Home</a></li>
+
+            <li class="active">View requested rides</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block body %}
+
+    <div class="content-wrapper" style="min-height: 1126px;">
+        <!-- Content Header (Page header) -->
+
+
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="row">
+
+                {% if all_user_requests %}
+                    {% for user_request in all_user_requests %}
+                        <div class="col-sm-4 col-lg-3 col-md-3 col-space">
+                            <div class="thumbnail">
+                                <a href="{{ user_request.get_absolute_url }}">
+                                    <img src="{% static 'app/img/request.jpg' %}" class="img-responsive">
+                                </a>
+
+                                <div class="caption">
+                                    <h3 class="visible-lg"><a class="link-black" href="{{ user_request.get_absolute_url }}">{{ user_request.pick }}&nbsp;&rightarrow;&nbsp;{{ user_request.dest  }}</a></h3>
+                                    <h4 class="visible-xs visible-sm visible-md"><a class="link-muted" href="{{ user_request.get_absolute_url }}">{{ user_request.pick }}&nbsp;&rightarrow;&nbsp;{{ user_request.dest  }}</a></h4>
+
+
+                                    <h4><a href="{{ user_request.ride.get_absolute_url }}">Route: {{ user_request.ride }}</a></h4>
+
+                                    {% if user_request.status == 'approved' %}
+                                        <p class="ride-people">
+                                            <a  class="tooltip-link " data-original-title="status"
+                                                data-toggle="tooltip" style="color: green">
+                                                <i class="fa fa-user" ></i>&nbsp;{{ user_request.status }}
+
+                                            </a>
+                                        </p><!-- end .ride-people -->
+                                    {% elif user_request.status == 'denied' %}
+                                        <p class="ride-people">
+                                            <a  class="tooltip-link " data-original-title="status"
+                                                data-toggle="tooltip" style="color: red">
+                                                <i class="fa fa-user" ></i>&nbsp;{{ user_request.status }}
+
+                                            </a>
+                                        </p><!-- end .ride-people -->
+                                    {% else %}
+                                        <p class="ride-people">
+                                            <a  class="tooltip-link " data-original-title="status"
+                                                data-toggle="tooltip" style="color: black">
+                                                <i class="fa fa-user" ></i>&nbsp;{{ user_request.status }}
+
+                                            </a>
+                                        </p><!-- end .ride-people -->
+                                    {% endif %}
+
+
+                                {% if user_request.status != 'canceled' and not user_request.ride.ended  %}
+                                    <form action="{% url 'app:request_delete' user_request.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+
+                                        <button type="submit" class="btn btn-danger btn-sm panel-button">
+                                            <span class="fa fa-close "></span>
+                                        </button>
+                                    </form>
+                                {% endif %}
+                                    <a href="{{ user_request.get_absolute_url }}" class="btn btn-success btn-sm" role="button"
+                                       >
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                    </a>
+
+                                </div>
+                            </div>
+                            {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                        </div>
+                        {% cycle '' ''  '' '<div class="clearfix hidden-xs hidden-sm"></div>' %}
+                        {% cycle '' '' '<div class="clearfix visible-sm"></div>' %}
+
+                    {% endfor %}
+
+                {% else %}
+                    <div class="col-sm-12">
+                        <br>
+                        <a href="{% url 'app:search_ride' request.user.id %} ">
+                            <button type="button" class="btn btn-success">
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp; Add a request
+                            </button>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+    </div>
+
+{% endblock %}

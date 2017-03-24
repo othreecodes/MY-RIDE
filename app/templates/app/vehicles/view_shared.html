@@ -1,0 +1,101 @@
+{% extends 'app/user/main_template.html' %}
+{% load  static %}
+{% load humanize %}
+
+
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+            View Shared <small> - You can manage your shared rides from here </small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">View Shared</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="content-wrapper" style="min-height: 1126px;">
+        <!-- Content Header (Page header) -->
+
+
+
+
+        {% if message %}
+            <div class="callout callout-success">
+                <h4>{{ message_heading}}</h4>
+
+                <p>{{ message_body }}</p>
+            </div>
+        {% endif %}
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                {% if shared %}
+                    {% for share in shared %}
+                        <div class="col-sm-4 col-lg-3 col-md-3 col-space">
+                            <div class="thumbnail">
+                                <a >
+                                    <img src="{% static 'app/img/ride.jpg' %}" class="img-responsive">
+                                </a>
+
+                                <div class="caption">
+                                    <h3><a href="{% url 'app:view_shared_ride' share.id%}" >{{ share.start }} to {{ share.dest }}</a></h3>
+                                    <h4><a href="{{ share.vehicle.get_absolute_url }}">Ride : {{ share.vehicle }}</a></h4>
+
+                                    <p>Seating : {{ share.no_pass }} seats</p>
+
+                                    <form action="{% url 'app:request_driver_view' user.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="share_id" value="{{ share.id }}"/>
+                                        <button type="submit" class="btn btn-primary btn-sm panel-button">
+                                            View Requests
+                                        </button>
+                                    </form>
+
+                                    {% if not share.ended%}
+                                    <form action="{% url 'app:delete_shared_ride' request.user.id share.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+
+                                        <button type="submit" class="btn btn-danger btn-sm panel-button">
+                                            <span class="glyphicon glyphicon-stop"></span>
+                                        </button>
+                                    </form>
+                                    {% endif %}
+
+
+{#                                    <a href="" class="btn btn-success btn-sm" role="button" >#}
+{#                                        <span class="glyphicon glyphicon-pencil"></span>#}
+{#                                    </a>#}
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        {% cycle '' ''  '' '<div class="clearfix hidden-xs hidden-sm"></div>' %}
+                        {% cycle '' '' '<div class="clearfix visible-sm"></div>' %}
+
+                    {% endfor %}
+
+                {% else %}
+                    <div class="col-sm-12">
+                        <br>
+                        <a href="{% url 'app:view_rides' request.user.id %}">
+                            <button type="button" class="btn btn-success">
+                                <span class="fa fa-group"></span>&nbsp; Share a Ride
+                            </button>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+    </div>
+
+{% endblock %}

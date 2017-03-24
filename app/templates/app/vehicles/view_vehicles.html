@@ -1,0 +1,180 @@
+{% extends 'app/user/main_template.html' %}
+{% load  static %}
+{% load humanize %}
+
+
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+            All Rides <small> - You can view, share and delete rides from here </small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">View Rides</li>
+        </ol>
+    </section>
+{% endblock %}
+
+
+{% block body %}
+    <style>
+        .user-row {
+            margin-bottom: 14px;
+        }
+
+        .user-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .dropdown-user {
+            margin: 13px 0;
+            padding: 5px;
+            height: 100%;
+        }
+
+        .dropdown-user:hover {
+            cursor: pointer;
+        }
+
+        .table-user-information > tbody > tr {
+            border-top: 1px solid rgb(221, 221, 221);
+        }
+
+        .table-user-information > tbody > tr:first-child {
+            border-top: 0;
+        }
+
+        .table-user-information > tbody > tr > td {
+            border-top: 0;
+        }
+
+        .toppad {
+            margin-top: 20px;
+        }
+
+    </style>
+
+    <div class="content-wrapper" style="min-height: 1126px;">
+        {% if message %}
+            <div class="callout callout-success">
+                <h4>{{ message_title }}</h4>
+
+                <p>{{ message_body }}</p>
+            </div>
+        {% endif %}
+        <section class="content">
+                {% if rides %}
+                    {% for ride in rides %}
+                        <div class="col-sm-4 col-lg-3 col-md-3 col-space">
+                        <div class="thumbnail">
+                            <a data-toggle="modal"
+                               data-target="#loginModal{{ ride.id }}">
+                                <img src="{% static 'app/img/chrysler_6.jpg' %}" class="img-responsive">
+                            </a>
+
+                            <div class="caption">
+                                <h3>{{ ride.make }} {{ ride.model }}</h3>
+                                <h4>Vechicle category: {{ ride.category }}</h4>
+
+                                <p>Seating : {{ ride.seats }} seats</p>
+
+                                <form action="{% url 'app:share_ride' user.id ride.id %}" method="get" style="display: inline;">
+{#                                    {% csrf_token %}#}
+{#                                    <input type="hidden" name="vehicle_id" value="{{ ride.id }}"/>#}
+                                    <button type="submit" class="btn btn-primary btn-sm panel-button">
+                                        Share ride
+                                    </button>
+                                </form>
+
+
+
+
+                                <form action="{% url 'app:delete_ride' user.id ride.id %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="vehicle_id" value="{{ ride.id }}"/>
+                                    <button type="submit" class="btn btn-danger btn-sm panel-button">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </form>
+
+                                <a href="" class="btn btn-success btn-sm" role="button" data-toggle="modal"
+                                   data-target="#loginModal{{ ride.id }}">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+
+                                <div class="modal fade" id="loginModal{{ ride.id }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;</button>
+                                            </div><!-- end .modal-header -->
+                                            <div class="modal-title">
+                                                <p class="log-in text-bold text-center">Vehicle Details</p>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="row">
+
+                                                    <div class=" col-md-12 col-lg-12 " align="center">
+                                                        <table class="table table-user-information">
+                                                            <tbody>
+                                                            <tr class="user-row alert alert-info">
+                                                                <td>VEHICLE NAME</td>
+                                                                <td>{{ ride.make }} {{ ride.model }}</td>
+                                                            </tr>
+                                                            <tr class="user-row alert alert-info">
+                                                                <td>YEAR OF PURCHASE</td>
+                                                                <td>{{ ride.year }}</td>
+                                                            </tr>
+                                                            <tr class="user-row alert alert-info">
+                                                                <td>CATEGORY</td>
+                                                                <td>{{ ride.category }}</td>
+                                                            </tr>
+                                                            <tr class="user-row alert alert-info">
+                                                                <td>SEATING</td>
+                                                                <td>{{ ride.seats }}</td>
+                                                            </tr>
+                                                            <tr class="user-row alert alert-info">
+                                                                <td>TYPE</td>
+                                                                <td>{{ ride.type|capfirst }} Vehicle</td>
+                                                            </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end .modal-body -->
+
+                                        </div><!-- end .modal-content -->
+                                    </div><!-- end .modal-dialog -->
+                                </div><!-- end .modal -->
+
+
+                            </div>
+                        </div>
+
+                        </div>
+                        {% cycle '' ''  '' '<div class="clearfix hidden-xs hidden-sm"></div>' %}
+                        {% cycle '' '' '<div class="clearfix visible-sm"></div>' %}
+
+                    {% endfor %}
+
+                {% else %}
+                    <div class="col-sm-12">
+                        <br>
+                        <a href="{% url 'app:add_ride' request.user.id %} ">
+                            <button type="button" class="btn btn-success">
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp; Add a ride
+                            </button>
+                        </a>
+                    </div>
+                {% endif %}
+                </section>
+            </div>
+
+    </div>
+{% endblock %}

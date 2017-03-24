@@ -1,0 +1,689 @@
+{% extends 'app/user/main_template.html' %}
+{% load  static %}
+{% load humanize %}
+
+
+
+
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+            User Profile
+            <small> - {{ user.username }}</small>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-home"></i> Home</a></li>
+
+            <li class="active">User profile</li>
+        </ol>
+    </section>
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="content-wrapper" style="min-height: 1126px;">
+        <!-- Content Header (Page header) -->
+
+
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-3">
+
+                    <!-- Profile Image -->
+                    <div class="box box-primary">
+                        <div class="box-body box-profile">
+                            <img class="profile-user-img img-responsive img-circle"
+                                 src="{{ user.get_profile.picture.url }}" alt="User profile picture">
+
+                            <h3 class="profile-username text-center">{{ user.full_name }}
+                                {% if user.is_verified %}<i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+
+                            </h3>
+
+                            <p class="text-muted text-center">{{ user.user_type }}</p>
+
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <b>Followers</b> <a class="pull-right">{{ user.get_no_followers }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Following</b> <a class="pull-right">{{ user.get_no_following }}</a>
+                                </li>
+                                {% if user.user_type == 'Driver' %}
+                                    <li class="list-group-item">
+                                        <b>Rides shared</b> <a class="pull-right">{{ user.no_of_rides_shared }}</a>
+                                    </li>
+                                {% endif %}
+                                <li class="list-group-item">
+                                    <b>Rides taken</b> <a class="pull-right">{{ user.no_of_request_completed }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Broadcasts</b> <a class="pull-right">{{ user.get_no_broadcast }}</a>
+                                </li>
+
+                            </ul>
+                            {% if request.user.is_authenticated %}
+                                {% if request.user != user %}
+                                    {% if request.user in user.get_following %}
+
+                                        <span class="bg-gray btn-block text-center" id="follower">follows you</span>
+                                    {% endif %}
+
+                                    <form action="{% url 'app:follow' user.id request.user.id %}" method="post">
+                                        {% csrf_token %}
+
+                                        {% if user in request.user.get_following %}
+
+                                            <button type="submit" class="btn bg-green btn-block btn-flat"
+                                                    id='follow-button'><b>
+                                                <i class="fa fa-check"></i>&nbsp;
+                                                Following</b></button>
+                                        {% else %}
+                                            <button type="submit" class="btn bg-blue btn-block btn-flat"
+                                                    id='follow-button'><b>
+                                                <i class="fa fa-plus"></i>&nbsp;
+                                                Follow</b></button>
+                                        {% endif %}
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title "><i class="fa fa-users"></i>&nbsp;Followers</h3>
+
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body box-profile">
+                            <div class="row">
+                                {% for friend in user.followee.all|slice:'8' %}
+
+                                    <div class="col-xs-3">
+                                        <a href="{{ friend.follower.get_absolute_url }}"><img
+                                                data-original-title="{{ friend.follower }}"
+                                                data-toggle="tooltip" class="direct-chat-img tooltip-link"
+                                                src="{{ friend.follower.get_profile.picture.url }}"
+                                                alt="Message User Image"></a>
+                                    </div>
+                                    {% cycle '' '' '' '<div class="clearfix"></div><br>' %}
+
+                                {% endfor %}
+
+
+                            </div>
+
+                            {#                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>#}
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- About Me Box -->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">About Me</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <strong><i class="fa fa-user margin-r-5"></i>Personal info</strong>
+
+                            <p class="text-muted"><b>Username :&nbsp;</b>
+                                {{ user.username }}
+                                <br>
+                                <b>Sex :&nbsp;</b>
+                                {{ user.sex }}
+                                <br>
+                                <b>Short name:&nbsp;</b>
+                                {{ user.short_name }}
+                            </p>
+                                <hr>
+                            <strong><i class="fa fa-info-circle margin-r-5"></i>Bio</strong>
+
+                            <p class="text-muted">
+                                {{ user.get_profile.bio }}
+                            </p>
+                                 <hr>
+                            {% if request.user in user.get_following %}
+
+                                <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+
+                                <p class="text-muted">{{ user.address }}</p>
+
+                                <hr>
+
+                                <strong><i class="fa fa-file-text-o margin-r-5"></i> Activity</strong>
+
+                                <p class="text-muted"><b>Joined :&nbsp;</b>
+                                    {{ user.date_joined|naturaltime }}
+                                    <br>
+                                    <b>Last Login :&nbsp;</b>
+                                    {{ user.last_login|naturaltime }}
+                                    <br>
+
+                                </p>
+
+                            {% endif %}
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true">Broadcasts</a>
+                            </li>
+                            {% if request.user.is_authenticated %}
+                                <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">Profile</a></li>
+
+                                {% if not user == request.user and request.user in user.get_following and 1 == 5 %}
+                                    <li class="">
+                                    <a href="#timeline" data-toggle="tab" aria-expanded="false">Interactions</a>
+                                {% endif %}
+
+                            {% endif %}
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="activity">
+                                <!-- Post -->
+                                {% include 'broadcast/broadcast_template.html' %}
+
+
+                                <!-- /.post -->
+
+                                <!-- /.post -->
+                            </div>
+                            <!-- /.tab-pane -->
+                            {% if request.user.is_authenticated %}
+                                {% if 1 == 5 %}
+                                    <div class="tab-pane " id="timeline">
+                                        <!-- The timeline -->
+                                        <ul class="timeline timeline-inverse">
+                                            <!-- timeline time label -->
+                                            <li class="time-label">
+                                                <span class="bg-red">
+                                                  10 Feb. 2014
+                                                </span>
+                                            </li>
+                                            <!-- /.timeline-label -->
+                                            <!-- timeline item -->
+                                            <li>
+                                                <i class="fa fa-envelope bg-blue"></i>
+
+                                                <div class="timeline-item">
+                                                    <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+
+                                                    <h3 class="timeline-header"><a href="#">Support Team</a> sent you an
+                                                        email
+                                                    </h3>
+
+                                                    <div class="timeline-body">
+                                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+                                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
+                                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo
+                                                        kaboodle
+                                                        quora plaxo ideeli hulu weebly balihoo...
+                                                    </div>
+                                                    <div class="timeline-footer">
+                                                        <a class="btn btn-primary btn-xs">Read more</a>
+                                                        <a class="btn btn-danger btn-xs">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!-- END timeline item -->
+                                            <!-- timeline item -->
+                                            <li>
+                                                <i class="fa fa-user bg-aqua"></i>
+
+                                                <div class="timeline-item">
+                                                    <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+
+                                                    <h3 class="timeline-header no-border"><a href="#">Sarah Young</a>
+                                                        accepted
+                                                        your friend request
+                                                    </h3>
+                                                </div>
+                                            </li>
+                                            <!-- END timeline item -->
+                                            <!-- timeline item -->
+                                            <li>
+                                                <i class="fa fa-comments bg-yellow"></i>
+
+                                                <div class="timeline-item">
+                                                    <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
+
+                                                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on
+                                                        your post
+                                                    </h3>
+
+                                                    <div class="timeline-body">
+                                                        Take me to your leader!
+                                                        Switzerland is small and neutral!
+                                                        We are more like Germany, ambitious and misunderstood!
+                                                    </div>
+                                                    <div class="timeline-footer">
+                                                        <a class="btn btn-warning btn-flat btn-xs">View comment</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!-- END timeline item -->
+                                            <!-- timeline time label -->
+                                            <li class="time-label">
+                        <span class="bg-green">
+                          3 Jan. 2014
+                        </span>
+                                            </li>
+                                            <!-- /.timeline-label -->
+                                            <!-- timeline item -->
+                                            <li>
+                                                <i class="fa fa-camera bg-purple"></i>
+
+                                                <div class="timeline-item">
+                                                    <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
+
+                                                    <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new
+                                                        photos
+                                                    </h3>
+
+                                                    <div class="timeline-body">
+                                                        <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                                        <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                                        <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                                        <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!-- END timeline item -->
+                                            <li>
+                                                <i class="fa fa-clock-o bg-gray"></i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+
+                            <div class="tab-pane" id="profile">
+
+                                <div class="row">
+                                    {% if user.get_profile.is_public %}
+
+
+                                    <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-user margin-r-5 text-blue"></i>&nbsp;Personal
+                                                    info</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                                <p class="text-muted"><b>Username :&nbsp;</b>
+                                                    {{ user.username }}
+                                                    <br>
+                                                    <b>Sex :&nbsp;</b>
+                                                    {{ user.sex }}
+                                                    <br>
+                                                    <b>Short name:&nbsp;</b>
+                                                    {{ user.short_name }}
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.col (left) -->
+                                    <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-globe margin-r-5 text-blue"></i>&nbsp;Contact info</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                                <p>
+                                                    <a href="tel://{{ user.phone_number }}"
+                                                       class="link-muted text-muted">
+                                                        <span class=" fa fa-phone"> </span>
+                                                        &nbsp;{{ user.phone_number }}</a><br>
+
+                                                    <a href="mailto://{{ user.email }}" class="link-muted text-muted">
+                                <span class=" fa fa-envelope">
+                                    </span>&nbsp;{{ user.email }} </a>
+
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                     <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-users margin-r-5 text-blue"></i>&nbsp;Social</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                                <p>
+                                                    <a class="btn btn-block btn-social btn-facebook" href="http://www.facebook.com/{{ user.get_profile.social_facebook }}"
+                                                       class="link-muted text-muted">
+                                                        <span class="fa fa-facebook"> </span>
+
+                                                        &nbsp;{{ user.get_profile.social_facebook }}</a>
+
+                                                </p>
+                                                <p>
+                                                    <a class="btn btn-block btn-social btn-twitter" href="http://www.twitter.com/{{ user.get_profile.social_twitter }}"
+                                                       class="link-muted text-muted">
+                                                        <span class="fa fa-twitter"> </span>
+
+                                                        &nbsp;{{ user.get_profile.social_twitter }}</a>
+
+                                                </p><p>
+                                                    <a class="btn btn-block btn-social btn-instagram" href="http://www.instagram.com/{{ user.get_profile.social_instagram }}"
+                                                       class="link-muted text-muted">
+                                                        <span class="fa fa-instagram"> </span>
+
+                                                        &nbsp;{{ user.get_profile.social_instagram }}</a>
+
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-briefcase margin-r-5 text-blue"></i>&nbsp;Work and Education</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                               <p>
+                                                    <a
+                                                       class="link-muted text-muted">
+                                                        <span class=" fa fa-briefcase"> </span>
+                                                        &nbsp;{{ user.get_profile.work }}</a><br>
+
+                                                    <a class="link-muted text-muted">
+                                                 <span class=" fa fa-book">
+                                                    </span>&nbsp;{{ user.get_profile.education }} </a>
+
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+
+                                        {% elif request.user in user.get_following %}
+
+                                    <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-user margin-r-5 text-blue"></i>&nbsp;Personal
+                                                    info</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                                <p class="text-muted"><b>Username :&nbsp;</b>
+                                                    {{ user.username }}
+                                                    <br>
+                                                    <b>Sex :&nbsp;</b>
+                                                    {{ user.sex }}
+                                                    <br>
+                                                    <b>Short name:&nbsp;</b>
+                                                    {{ user.short_name }}
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.col (left) -->
+                                    <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-globe margin-r-5 text-blue"></i>&nbsp;Contact info</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                                <p>
+                                                    <a href="tel://{{ user.phone_number }}"
+                                                       class="link-muted text-muted">
+                                                        <span class=" fa fa-phone"> </span>
+                                                        &nbsp;{{ user.phone_number }}</a><br>
+
+                                                    <a href="mailto://{{ user.email }}" class="link-muted text-muted">
+                                <span class=" fa fa-envelope">
+                                    </span>&nbsp;{{ user.email }} </a>
+
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                     <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-users margin-r-5 text-blue"></i>&nbsp;Social</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                                <p>
+                                                    <a class="btn btn-block btn-social btn-facebook" href="http://www.facebook.com/{{ user.get_profile.social_facebook }}"
+                                                       class="link-muted text-muted">
+                                                        <span class="fa fa-facebook"> </span>
+
+                                                        &nbsp;{{ user.get_profile.social_facebook }}</a>
+
+                                                </p>
+                                                <p>
+                                                    <a class="btn btn-block btn-social btn-twitter" href="http://www.twitter.com/{{ user.get_profile.social_twitter }}"
+                                                       class="link-muted text-muted">
+                                                        <span class="fa fa-twitter"> </span>
+
+                                                        &nbsp;{{ user.get_profile.social_twitter }}</a>
+
+                                                </p><p>
+                                                    <a class="btn btn-block btn-social btn-instagram" href="http://www.instagram.com/{{ user.get_profile.social_instagram }}"
+                                                       class="link-muted text-muted">
+                                                        <span class="fa fa-instagram"> </span>
+
+                                                        &nbsp;{{ user.get_profile.social_instagram }}</a>
+
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-briefcase margin-r-5 text-blue"></i>&nbsp;Work and Education</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                               <p>
+                                                    <a
+                                                       class="link-muted text-muted">
+                                                        <span class=" fa fa-briefcase"> </span>
+                                                        &nbsp;{{ user.get_profile.work }}</a><br>
+
+                                                    <a class="link-muted text-muted">
+                                                 <span class=" fa fa-book">
+                                                    </span>&nbsp;{{ user.get_profile.education }} </a>
+
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    {% elif request.user == user %}
+                                         <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-user margin-r-5 text-blue"></i>&nbsp;Personal
+                                                    info</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                                <p class="text-muted"><b>Username :&nbsp;</b>
+                                                    {{ user.username }}
+                                                    <br>
+                                                    <b>Sex :&nbsp;</b>
+                                                    {{ user.sex }}
+                                                    <br>
+                                                    <b>Short name:&nbsp;</b>
+                                                    {{ user.short_name }}
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <!-- /.col (left) -->
+                                    <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-globe margin-r-5 text-blue"></i>&nbsp;Contact info</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                                <p>
+                                                    <a href="tel://{{ user.phone_number }}"
+                                                       class="link-muted text-muted">
+                                                        <span class=" fa fa-phone"> </span>
+                                                        &nbsp;{{ user.phone_number }}</a><br>
+
+                                                    <a href="mailto://{{ user.email }}" class="link-muted text-muted">
+                                <span class=" fa fa-envelope">
+                                    </span>&nbsp;{{ user.email }} </a>
+
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                     <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-users margin-r-5 text-blue"></i>&nbsp;Social</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                                <p>
+                                                    <a class="btn btn-block btn-social btn-facebook" href="http://www.facebook.com/{{ user.get_profile.social_facebook }}"
+                                                       class="link-muted text-muted">
+                                                        <span class="fa fa-facebook"> </span>
+
+                                                        &nbsp;{{ user.get_profile.social_facebook }}</a>
+
+                                                </p>
+                                                <p>
+                                                    <a class="btn btn-block btn-social btn-twitter" href="http://www.twitter.com/{{ user.get_profile.social_twitter }}"
+                                                       class="link-muted text-muted">
+                                                        <span class="fa fa-twitter"> </span>
+
+                                                        &nbsp;{{ user.get_profile.social_twitter }}</a>
+
+                                                </p><p>
+                                                    <a class="btn btn-block btn-social btn-instagram" href="http://www.instagram.com/{{ user.get_profile.social_instagram }}"
+                                                       class="link-muted text-muted">
+                                                        <span class="fa fa-instagram"> </span>
+
+                                                        &nbsp;{{ user.get_profile.social_instagram }}</a>
+
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="box box-solid">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-briefcase margin-r-5 text-blue"></i>&nbsp;Work and Education</h3>
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body ">
+                                               <p>
+                                                    <a
+                                                       class="link-muted text-muted">
+                                                        <span class=" fa fa-briefcase"> </span>
+                                                        &nbsp;{{ user.get_profile.work }}</a><br>
+
+                                                    <a class="link-muted text-muted">
+                                                 <span class=" fa fa-book">
+                                                    </span>&nbsp;{{ user.get_profile.education }} </a>
+
+                                                </p>
+                                            </div>
+                                            <!-- /.box-body -->
+                                        </div>
+                                        <!-- /.box -->
+                                    </div>
+
+                                        <div class="col-md-12">
+                                           <div class="text-center">
+                                               <a href="{% url 'app:preferences' %}" class="btn btn-block btn-primary">
+                                                   <i class="fa fa-pencil margin-r-5"></i>
+                                                   Edit Profile
+                                               </a>
+                                           </div>
+                                        </div>
+
+                                    {% else %}
+
+
+                                        <div class="col-md-12">
+                                         <div class="callout callout-danger">
+                                 <h4>Nothing to see here&nbsp;<i class="fa fa-exclamation"></i></h4>
+
+                            <p>You Are seeing this because {{ user }}'s profile isn't public</p>
+                        </div>
+
+                                        </div>
+
+                                    {% endif %}
+                                    <!-- /.col (right) -->
+                                </div>
+
+
+                            </div>
+                            <!-- /.tab-pane -->
+
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                    <!-- /.nav-tabs-custom -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+        </section>
+        <!-- /.content -->
+
+    </div>
+
+{% endblock %}
+

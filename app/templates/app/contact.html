@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <section class="main-content">
+    <section class="main-content" id="content">
 
         <div class="container">
             <div class="row">
@@ -25,22 +25,22 @@
                         <form id="cantact-form" action="#" validate autocomplete="off" method="post" class="idealforms">
 {% csrf_token %}
                             <div class="field">
-                                <input name="username" type="text" placeholder="Name" required>
+                                <input name="username" type="text" placeholder="Name" class="form-control" value="nil" disabled readonly>
                                 <span class="error"></span>
                             </div>
 
                             <div class="field">
-                                <input name="email" type="email" placeholder="Email address" required>
+                                <input name="email" type="email" class="form-control" placeholder="Email address" required>
                                 <span class="error"></span>
                             </div>
 
                             <div class="field">
-                                <input  name="website" type="text"  placeholder="Website" >
+                                <input  name="website" type="text" class="form-control" placeholder="Website" >
                                 <span class="error"></span>
                             </div>
 
                             <div class="full-fild">
-                                <textarea name="message" id="message" cols="5" placeholder="Message" rows="4" required></textarea>
+                                <textarea name="message" id="message" class="form-control" cols="5" placeholder="Message" rows="4" required></textarea>
                             </div>
 
                             <div class="field buttons">

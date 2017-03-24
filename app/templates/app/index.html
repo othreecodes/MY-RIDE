@@ -1,124 +1,124 @@
 {% extends 'app/base_template.html' %}
-
-
+{% load static %}
 
 {% block body %}
 
-    <section class="main-content">
+<div class="content-wrapper" style="min-height: 916px;">
+    <!-- Content Header (Page header) -->
 
-        <div class="container">
-            <div class="row">
+    <!-- Main content -->
+    <section class="content">
+      <!-- Main row -->
+        <div class="row">
+            <div class="col-md-8" >
+                <div class="box box-solid" >
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                  <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+                  <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+                </ol>
+                <div class="carousel-inner">
+                  <div class="item active">
+                    <img src="{% static 'app/img/car12.jpg' %}" alt="Share your ride">
+                    <div class="carousel-caption">
+                  <h2>Share your ride</h2>
+      <p>Are you getting sick of traveling alone and spent so much money on gas? Share your ride today,and forget about this problems.</p>
 
-                <div class="page-content">
+                    </div>
+                  </div>
+                  <div class="item">
+                            <img src="{% static 'app/img/cover.jpg' %}" alt="Find new friends" >
+                    <div class="carousel-caption">
+                     <h2>Find new friends</h2>
+      <p>Finding new friends is easier than ever,nothing makes better friendship than spending few hours casually chatting with some interesting people.</p>
 
-                    <div class="services clearfix">
+                    </div>
+                  </div>
+                  <div class="item">
+                    <img src="{% static 'app/img/ride.jpg' %}" alt="Go to new places">
 
-                        <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="carousel-caption">
+                   <h2>Go to new places</h2>
+      <p>Find some new favourite place to chill out,you have no longer got excuse for not travelling and discovering.</p>
 
-                            <div class="page-sub-title textcenter">
-                                <h2>What You Can Do</h2>
-                                <div class="line"></div>
-                            </div><!-- end .page-sub-title -->
+                    </div>
 
-                        </div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
-
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-
-                            <article class="service">
-
-                                <i class="fa fa-car"></i>
-
-                                <h3>Share your ride</h3>
-                                <p>Are you getting sick of traveling alone and spent so much money on gas? Share your ride today,and forget about this problems.</p>
-
-
-                            </article><!-- end .service -->
-
-                        </div><!-- end .col-md-4 -->
-
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-
-                            <article class="service">
-
-                                <i class="fa fa-users"></i>
-
-                                <h3>Find new friends</h3>
-                                <p>Finding new friends is easier than ever,nothing makes better friendship than spending few hours casually chatting with some interesting people.</p>
-
-                            </article><!-- end .service -->
-
-                        </div><!-- end .col-md-4 -->
-
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-
-                            <article class="service">
-
-                                <i class="fa fa-map-marker"></i>
-
-                                <h3>Go to new places</h3>
-                                <p> Find some new favourite place to chill out,you have no longer got excuse for not travelling and discovering. </p>
-
-                            </article><!-- end .service -->
-
-                        </div><!-- end .col-md-4 -->
-
-                    </div><!-- end .services -->
-
-                    <div class="clearfix"></div>
-
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-
-                        <div class="background parallax" style="background-image:url('img/XWBIL5.jpg');" data-img-width="1600" data-img-height="1064">
-
-                            <div class="main-parallax-content">
-
-                                <div class="second-parallax-content">
-
-                                    <div class="parallax-content clearfix">
-
-                                        <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <div class="site-stat">
-                                                <span class="counter">5,000</span>
-                                                <span>Happy users</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <div class="site-stat">
-                                                <span class="counter">7,000</span>
-                                                <span>Successful rides</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <div class="site-stat">
-                                                <span class="counter">600,000</span>
-                                                <span>Miles traveled in a good company</span>
-                                            </div>
-                                        </div>
-
-                                    </div><!-- end .parallax-content -->
-
-                                </div><!-- end .main-parallax-content -->
-
-                            </div><!-- end .paralax -->
-
-                        </div><!-- end .fullscreen .background .parallax -->
-
-                    </div><!-- end .col-md-12 -->
-
-                    <div class="clearfix"></div>
+                  </div>
+                </div>
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                  <span class="fa fa-angle-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                  <span class="fa fa-angle-right"></span>
+                </a>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
 
 
 
 
+            </div>
 
-                </div><!-- end .page-content -->
 
-            </div><!-- end .row -->
-        </div><!-- end .container -->
+            <div class="pull-left col-md-4 col-sm-12 col-xs-12">
+                <div class="login-box" >
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            <h4 class="login-box-msg">Log in</h4>
+            {% if error_message %}
+                <p class="error alert-danger alert"><strong>{{ error_message }}</strong></p>
+            {% endif %}
+            <form action="{% url 'app:login_user' %}?next=/" method="post">
+                {% csrf_token %}
+                <div class="form-group has-feedback">
+                    <input name="username" type="text" class="form-control" placeholder="Username" required>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input name="password" type="password" class="form-control" placeholder="Password" required>
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <br>
+                <a href="#" class="pull-right">Forgot password?</a><br>
+                </div>
 
-    </section><!-- end .main-content -->
+                <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-xs-offset-8 col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Log In</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+            <div class="social-auth-links text-center">
+                <p>- OR -</p>
+                <a href="https://myride.auth0.com/authorize?response_type=code&scope=openid%20profile&client_id=Li1h8im1PjLRuZUl6JlUSYrRodwAabsQ&redirect_uri=http://localhost:8000/api/login/&connection=facebook"
+                        class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Log in using
+                    Facebook</a>
+{#                <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using#}
+{#                    Google+</a>#}
+            </div>
+            <!-- /.social-auth-links -->
 
+
+
+
+            <a href="{% url 'app:sign_up' %}" class="text-center">Register</a>
+
+        </div>
+        <!-- /.login-box-body -->
+    </div>
+
+            </div>
+        </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
 
 {% endblock %}

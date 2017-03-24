@@ -1,0 +1,105 @@
+{% extends 'app/user/main_template.html' %}
+
+{% load staticfiles %}
+{% load humanize %}
+
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+            All ride request <small> - Overview of all requests </small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li class="active">All ride requests</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block body%}
+<div class="content-wrapper" style="min-height: 1126px;">
+    <!-- Content Header (Page header) -->
+    <section class="content">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+    <table id="req_table" class="table table-striped table-bordered " cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Date</th>
+            <th class="hidden-xs hidden-sm">Ride</th>
+            <th class="hidden-xs hidden-sm">Bearable Cost</th>
+            <th >Status</th>
+            <th class="hidden-xs hidden-sm" >Source to Destination</th>
+            <th class="hidden-xs hidden-sm"></th>
+
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Date</th>
+            <th class="hidden-xs hidden-sm">Ride</th>
+            <th class="hidden-xs hidden-sm">Bearable Cost</th>
+            <th>Status</th>
+            <th class="hidden-xs hidden-sm">Source to Destination</th>
+            <th class="hidden-xs hidden-sm"></th>
+        </tr>
+        </tfoot>
+        <tbody>
+        {% for request in requests %}
+        <tr>
+            <td><a href="{{ request.get_absolute_url }}">{{ request.id }}</a></td>
+            <td><a href="{{ request.user.get_absolute_url }}"> {{ request.user.username }}</a></td>
+            <td>{{ request.reg_date|naturaltime }}</td>
+            <td class="hidden-xs hidden-sm">{{ request.ride }}</td>
+            <td class="hidden-xs hidden-sm">{{ request.bearable }}</td>
+            <td >{% if request.status == 'approved' %}
+
+                <span  class="label label-success">
+                    {{ request.status }}
+                </span>
+
+            {% elif request.status == 'denied' %}
+
+                <span  class="label label-danger">
+                    {{ request.status }}
+                </span>
+            {% elif request.status == 'canceled' %}
+
+                <span  class="label label-warning">
+                    {{ request.status }}
+                </span>
+            {% else %}
+
+                <span  class="label label-default">
+                    {{ request.status }}
+                </span>
+            {% endif %}</td>
+            <td class="hidden-xs hidden-sm">{{ request.pick }}&nbsp;to&nbsp;{{ request.dest}}</td>
+            <td class="hidden-xs hidden-sm">{% if not equest.ride.ended and request.status != 'canceled' %}
+                {% if request.status == 'approved' %}
+                    <a href="{% url 'app:request_driver_deny' request.id %}" style="cursor: pointer;text-decoration: none" class="btn-danger btn-xs btn" >  <i class="fa fa-close "></i>&nbsp;Deny </a>
+                {% elif request.status == 'denied' %}
+                    <a href="{% url 'app:request_driver_approve' request.id %}" style="cursor: pointer;text-decoration: none" class="btn-success btn-xs btn" >  <i class="fa fa-check "></i>&nbsp;Approve </a>
+                {% else %}
+                    <a href="{% url 'app:request_driver_approve' request.id %}" style="cursor: pointer;text-decoration: none" class=" btn-success btn-xs btn">  <i class="fa fa-check "></i>&nbsp;Approve </a>&nbsp;
+                    <a href="{% url 'app:request_driver_deny' request.id %}" style="cursor: pointer;text-decoration: none" class="btn-danger btn-xs btn" >  <i class="fa fa-close "></i>&nbsp;Deny </a>
+                {% endif %}
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+        </div>
+    </div>
+        </section>
+</div>
+{% endblock %}
+
+{% for r in requests %}
+    {{ r.dest }}
+{% endfor %}

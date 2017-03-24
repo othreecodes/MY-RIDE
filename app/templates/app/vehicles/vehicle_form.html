@@ -1,0 +1,46 @@
+{% extends 'app/user/main_template.html' %}
+{% load  static %}
+{% load humanize %}
+
+
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+            Add Ride <small>- Add a vehicle to your collection</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-home"></i> Home</a></li>
+            <li class="active">Add Ride</li>
+        </ol>
+    </section>
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="register-box hold-transition register-page box box-info">
+        <div class="register-box-body">
+            <h3 class="login-box-msg "><i class="fa fa-car"></i>&nbsp;Add a new ride</h3>
+
+            <form  action="" validate autocomplete="off" class="" role="form" method="post" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                {% include 'app/template_form.html' %}
+
+                <div class="field buttons ">
+                    <button type="submit" class="btn btn-lg bg-blue form-control-static">Add</button>
+                </div>
+
+                <span id="invalid"></span>
+
+            </form>
+
+        </div>
+        <!-- /.form-box -->
+    </div>
+
+    <!-- /.register-box -->
+
+
+{% endblock %}

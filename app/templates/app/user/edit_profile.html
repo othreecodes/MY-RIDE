@@ -1,0 +1,59 @@
+
+
+{% extends 'app/user/user_template.html' %}
+{% block username %}{{  request.user.username}}{% endblock %}
+{% block messages %}
+    {% if request.user.get_no_messages > 0 %}
+        {{ request.user.get_no_messages }}
+    {% endif %}
+{% endblock %}
+{% block notifications%}
+    {% if request.user.get_no_notifs > 0 %}
+        {{ request.user.get_no_notifs }}
+    {% endif %}
+{% endblock %}
+
+{% block navigation %}
+    {% if request.user.user_type == 'Driver' %}
+        {% include 'app/user/driver_template.html' %}
+    {% elif request.user.user_type == 'Passenger' %}
+        {% include 'app/user/passenger_template.html' %}
+    {% endif %}
+
+{% endblock %}
+
+{% block user_notifications %}
+    {% for notif in request.user.get_notifications %}
+        <li>
+            <a href="" class="ride-content">
+                {{ notif.level }} - {{ notif.description }} &nbsp;<h6>{{ notif.timestamp|timesince  }}&nbsp;ago</h6>
+            </a>
+
+        </li>
+    {% endfor %}
+{% endblock %}
+
+{% block user_messages %}
+
+    {% for message in request.user.get_messages %}
+        <li>
+            <a href="" class="ride-content">
+                {{ message.message|truncatechars:30 }}  from <h6>{{ message.sender }}</h6>
+            </a>
+
+        </li>
+    {% endfor %}
+
+{% endblock %}
+
+{% block body %}
+{% if request.user.id == user.id %}
+    {% include 'app/user/edit_profile_main.html' %}
+{% else %}
+    <section class="main-content">
+        <h1 class="alert-danger alert text-center">FORBIDDEN</h1>
+
+    </section>
+{% endif %}
+
+{% endblock %}

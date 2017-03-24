@@ -1,0 +1,106 @@
+{% extends 'app/user/user_template.html' %}
+
+{% block username %}
+    {{ request.user.username }}
+{% endblock %}
+{% block notifications%}
+    {% if request.user.get_no_notifs > 0 %}
+        {{ request.user.get_no_notifs }}
+    {% endif %}
+{% endblock %}
+
+{% block messages %}
+    {% if request.user.get_no_messages > 0 %}
+        {{ request.user.get_no_messages }}
+    {% endif %}
+{% endblock %}
+{% block navigation %}
+    {% if request.user.user_type == 'Driver' %}
+        {% include 'app/user/driver_template.html' %}
+    {% elif request.user.user_type == 'Passenger' %}
+        {% include 'app/user/passenger_template.html' %}
+    {% endif %}
+
+{% endblock %}
+
+{% block user_notifications %}
+    {% for notif in request.user.get_notifications %}
+        <li>
+            <a href="" class="ride-content">
+                {{ notif.level }} - {{ notif.description }} &nbsp;<h6>{{ notif.timestamp|timesince  }}&nbsp;ago</h6>
+            </a>
+
+        </li>
+    {% endfor %}
+{% endblock %}
+
+{% block user_messages %}
+
+    {% for message in request.user.get_messages %}
+        <li>
+            <a href="" class="ride-content">
+                {{ message.message|truncatechars:30 }}  from <h6>{{ message.sender }}</h6>
+            </a>
+
+        </li>
+    {% endfor %}
+
+{% endblock %}
+
+{% block body%}
+
+    <section class="main-content" id="content">
+        <div class="container container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-xs-12 ">
+
+                    <div class="page-sub-title textcenter">
+                        <h2>{{ ride.start }} to {{ ride.dest }}</h2>
+                        <div class="line"></div>
+                    </div><!-- end .page-sub-title -->
+
+                </div>
+                <br>
+
+                        <div class="col-sm-12 col-lg-12 col-md-12 col-space">
+                            <div class="thumbnail">
+
+                                <div class="caption text-center">
+                                    <h2><a href="{% url 'app:view_shared_ride' ride.id%}" >{{ ride.start }} to {{ ride.dest }}</a></h2>
+                                    <h4>  <a href="{{ ride.vehicle.get_absolute_url }}"><i class="fa fa-cab"></i> Ride : {{ ride.vehicle }}</a></h4>
+                                    <span> <i class="fa fa-user"></i> Seating : {{ ride.no_pass }} seats</span>
+                                    <span><p> <i class="fa fa-calendar"></i> Start time:
+                                        {{ ride.date }} at <i class="fa fa-clock-o"></i> {{ ride.start_time }}</p>
+                                    </span>
+                                    <span> <p> <i class="fa fa-calendar"></i> Estimated arrival time:
+                                        {{ ride.date }} at <i class="fa fa-clock-o"></i> {{ ride.arrival_time }}</p>
+                                    </span>
+
+                                    <span> <p> <i class="fa fa-male"></i><i class="fa fa-female"></i> Gender Preference:
+                                          {{ ride.sex }}</p>
+                                    </span>
+
+                                     <span> <p> <i class="fa fa-money"></i> Cost:
+                                         ₦ {{ ride.cost }}/km</p>
+                                    </span>
+
+                                    <h4>  <a href="{{ ride.user.get_absolute_url }}"><i class="glyphicon glyphicon-user"></i> Driver : {{ ride.user.full_name }}</a></h4>
+
+
+
+
+
+                                </div>
+                            </div>
+                            {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+                        </div>
+
+
+
+
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}

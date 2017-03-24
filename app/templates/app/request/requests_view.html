@@ -1,0 +1,261 @@
+{% extends 'app/user/main_template.html' %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+            Request <small> - {{ info }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="{% url 'app:view_shared' request.user.id %}"><i class="fa fa-cab"></i> Shared Rides</a></li>
+
+            <li class="active">Ride Requests</li>
+        </ol>
+    </section>
+{% endblock %}
+{% block body %}
+    <style>
+        .ride-box
+        {
+            -webkit-transition: all  0.4s ease-in-out 0s;
+            -moz-transition: all  0.4s ease-in-out 0s;
+            -ms-transition: all  0.4s ease-in-out 0s;
+            -o-transition: all  0.4s ease-in-out 0s;
+            transition: all  0.4s ease-in-out 0s;
+            border: 3px solid #000;
+            padding: 20px 26px;
+            margin: -3px 0 0 0;
+            position: relative;
+        }
+        .ride-box .article-meta li
+        {
+            display: block
+        }
+        .ride-box ul.article-meta
+        {
+            display: inline-block;
+            margin: 0;
+        }
+        .article-content
+        {
+            display: inline-block;
+            margin: 1em 0 0 0;
+        }
+        .ride-content
+        {
+            display: inline-block
+        }
+        .ride-content h3
+        {
+            display: inline;
+            margin: 0 0.5em 0 0;
+        }
+        .ride-content h3 a
+        {
+            color: #1f2f3f
+        }
+        ul.full-ride-meta
+        {
+            float: right;
+            margin: 0;
+            list-style: none;
+        }
+        .ride-box .ride-meta
+        {
+            margin: 0
+        }
+        .ride-meta
+        {
+            margin: 0 0 1.5em 0;
+            font-size: 13px;
+            float: right;
+            color: #a6a497;
+        }
+        ul.ride-meta li
+        {
+            display: inline-block;
+            margin-right: 1.5em;
+        }
+        ul.ride-meta li:last-child
+        {
+            margin: 0
+        }
+        .ride-box:hover
+        {
+            background: #f4f1e3;
+        }
+        /* === Blog rides === */
+        .article
+        {
+            margin-bottom: 3em
+        }
+        .article:last-of-type
+        {
+            margin: 0
+        }
+        .article .ride-image img
+        {
+            width: 100%;
+            border: 3px solid #f4f1e3;
+        }
+        .article header
+        {
+            position: relative
+        }
+        .article-title
+        {
+            background: #f4f1e3;
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            padding: 1em 2em;
+            position: absolute;
+        }
+        ul.article-meta
+        {
+            font-size: 13px;
+            margin: 1.5em 0 0;
+            list-style: none;
+            text-transform: capitalize;
+        }
+        .article-meta li
+        {
+            display: inline-block;
+            margin-right: 1.5em;
+        }
+        /* === Single ride === */
+        .single-article
+        {
+            margin-bottom: 2em
+        }
+        .single-article-title h2
+        {
+            display: inline-block;
+            margin: 0;
+        }
+        .single-article .ride-meta
+        {
+            margin-top: 1em
+        }
+        /* === Comments === */
+        #comments ol
+        {
+            list-style: none;
+            margin: 0;
+        }
+        .commentslist ul
+        {
+            list-style: none
+        }
+        .comments-area h3
+        {
+            margin: 0;
+            padding: 2em 0;
+            text-transform: uppercase;
+        }
+
+    </style>
+    <div class="content" >
+        <div class="col-md-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <i class="fa fa-warning"></i>
+
+                    <h3 class="box-title">Requests</h3>
+                </div>
+                <!-- /.box-header -->
+                {% for pass_request in pass_requests %}
+                <div class="box-body">
+                    <div class="callout callout-info">
+                        <h4><i class="icon fa fa-ticket"></i>&nbsp;{{ pass_request.user|capfirst }}&nbsp;-&nbsp;{{ pass_request.reg_date|naturaltime }}
+                            <a class="link-danger text-right" style="float: right;text-decoration: blink" href="{{ pass_request.get_absolute_url }}">more info <i class="fa fa-arrow-circle-right"></i></a> </h4>
+
+
+
+                                <span  class="tooltip-link" data-original-title="Source to Destination"
+                                    data-toggle="tooltip">
+                                    <i class="fa fa-location-arrow"></i>
+                                    from {{ pass_request.pick }} to  {{ pass_request.dest }}
+                                </span>
+
+                    &nbsp;-&nbsp;
+
+                            {% if pass_request.status == 'approved' %}
+
+                                    <span  class="tooltip-link " data-original-title="status"
+                                        data-toggle="tooltip" style="color: green">
+                                        <i class="fa fa-user" ></i>&nbsp;{{ pass_request.status }}
+
+                                    </span>
+
+                            {% elif pass_request.status == 'denied' %}
+
+                                    <span  class="tooltip-link " data-original-title="status"
+                                        data-toggle="tooltip" style="color: red">
+                                        <i class="fa fa-user" ></i>&nbsp;{{ pass_request.status }}
+
+                                    </span>
+                            {% else %}
+
+                                    <span  class="tooltip-link " data-original-title="status"
+                                        data-toggle="tooltip" style="color: black">
+                                        <i class="fa fa-user" ></i>&nbsp;{{ pass_request.status }}
+
+                                    </span>
+
+                            {% endif %}
+                    <br>
+
+                                <span role="presentation" class="tooltip-link" data-original-title="Bearable Cost"
+                                    data-toggle="tooltip">
+                                    <i class="fa fa-money"></i>&nbsp;
+                                    ₦ {{ pass_request.bearable }} / ₦ {{ pass_request.ride.cost }}
+                                </span>
+                    <br>
+
+                                <a class="" style="text-decoration: none" href="{{ pass_request.user.get_absolute_url }}" class="tooltip-link" data-original-title="User"
+                                   data-toggle="tooltip">
+                                    {% if pass_request.user.sex == 'Male' %}
+                                        <i class="fa fa-male"></i> &nbsp;{{ pass_request.user.username }}
+                                    {% elif pass_request.user.sex == 'Female' %}
+                                        <i class="fa fa-female"></i> &nbsp;{{ pass_request.user.username }}
+                                    {% else  %}
+                                        <i class="fa fa-male"></i><i class="fa fa-female"></i>&nbsp;
+                                    {% endif %}
+                                </a>
+                    <br>
+                    <br>
+                    <br>
+
+                                {% if not pass_request.ride.ended and pass_request.status != 'canceled' %}
+                                    {% if pass_request.status == 'approved' %}
+                                        <a href="{% url 'app:request_driver_deny' pass_request.id %}" style="cursor: pointer;text-decoration: none" class="btn-danger btn-sm btn" >  <i class="fa fa-close "></i>&nbsp;Deny </a>
+                                    {% elif pass_request.status == 'denied' %}
+                                        <a href="{% url 'app:request_driver_approve' pass_request.id %}" style="cursor: pointer;text-decoration: none" class="btn-success btn-sm btn" >  <i class="fa fa-check "></i>&nbsp;Approve </a>
+                                    {% else %}
+                                        <a href="{% url 'app:request_driver_approve' pass_request.id %}" style="cursor: pointer;text-decoration: none" class=" btn-success btn-sm btn">  <i class="fa fa-check "></i>&nbsp;Approve </a>&nbsp;
+                                        <a href="{% url 'app:request_driver_deny' pass_request.id %}" style="cursor: pointer;text-decoration: none" class="btn-danger btn-sm btn" >  <i class="fa fa-close "></i>&nbsp;Deny </a>
+                                    {% endif %}
+                                {% endif %}
+
+
+
+
+
+
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+
+
+    </div><!-- end .main-content -->
+
+{% endblock %}

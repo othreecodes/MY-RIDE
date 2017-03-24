@@ -1,0 +1,393 @@
+{% extends 'app/dashboard/dashboard_template.html' %}
+
+{% block heading %}
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Preferences</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+            <li class="active">&nbsp;Preferences</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4>{{ message.tags|capfirst }} </h4>
+                {{ message }}
+              </div>
+        {% endfor %}
+    {% endif %}
+
+
+        <section class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="img-tooltip-wrapper">
+                    <label for="ima">
+                        <img src="{{ request.user.get_profile.picture.url }}"
+                             width="100%" height="250">
+                        <span class="btn btn-flat btn-block btn-primary"><i class="fa fa-camera margin-r-5"></i>Change Profile Picture</span>
+                    </label>
+
+                    <form name="image-change" method="post" enctype="multipart/form-data"
+                          action="{% url 'app:image_update' %}" validate>
+                        {% csrf_token %}
+                        <input id="ima" name="image" type="file" accept="image/*" class="hidden"
+                               onchange="document.forms['image-change'].submit()" required>
+
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="col-md-8 col-sm-8  col-xs-12">
+                <div class="box box-default pull-left">
+                    <div class="box-header with-border">
+                        <i class="fa fa-info"></i>
+
+                        <h3 class="box-title">Basic Profile</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form name="basic-profile" validate method="post" action="{% url 'app:basic_update' %}">
+                            {% csrf_token %}
+                            <div class="form-group has-info">
+                                <label class="control-label" for="inputname"><i class="fa fa-user"></i>
+                                    Full name
+                                </label>
+                                <input type="text" name="fullname" class="form-control" id="inputname"
+                                       value="{{ request.user.full_name }}" required>
+                                <span class="help-block">This is displayed to all users</span>
+                            </div>
+
+                            <div class="form-group has-info">
+                                <label class="control-label" for="inputuname"><i class="fa fa-user"></i>
+                                    Username
+                                </label>
+                                <input type="text" name="username" class="form-control" id="inputuname"
+                                       value="{{ request.user.username }}" required>
+                                <span class="help-block">This is displayed to all users</span>
+                            </div>
+
+                            <div class="form-group has-info">
+                                <label class="control-label" for="inputsname"><i class="fa fa-user"></i>
+                                    Short name
+                                </label>
+                                <input type="text" name="shortname" class="form-control" id="inputsname"
+                                       value="{{ request.user.short_name }}" required>
+                                <span class="help-block">This is displayed to all users</span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </section>
+        <section class="row">
+            <div class="col-md-6">
+                <div class="col-md-12 col-sm-12  col-xs-12">
+                    <div class="box box-default pull-left">
+                        <div class="box-header with-border">
+                            <i class="fa fa-info"></i>
+
+                            <h3 class="box-title">User Information</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <form name="basic-profile" action="{% url 'app:user_update' %}" method="post" >
+                                {% csrf_token %}
+                                <div class="form-group has-info">
+                                    <label class="control-label" for="inputname"><i class="fa fa-envelope"></i>
+                                        Email
+                                    </label>
+                                    <input type="email" name="email" class="form-control" id="inputname"
+                                           value="{{ request.user.email }}" required>
+                                    <span class="help-block">This is must be a valid email</span>
+                                </div>
+
+                                <div class="form-group has-info">
+                                    <label class="control-label" name="number" for="inputuname"><i class="fa fa-phone"></i>
+                                        Phone number
+                                    </label>
+                                    <input type="text" name="phone" class="form-control" id="inputuname"
+                                           value="{{ request.user.phone_number }}" required>
+                                    <span class="help-block">This is must be a valid phone number</span>
+                                </div>
+
+                                <div class="form-group has-info">
+                                    <label class="control-label" for="inputsname"><i class="fa fa-user"></i>
+                                        Sex
+                                    </label>
+                                    <input type="text" class="form-control" id="inputsname"
+                                           value="{{ request.user.sex }}" readonly>
+                                    <span class="help-block">This is cannot be changed read our <a href="">Terms of
+                                        Service</a> </span>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+                </div>
+                {% if request.user.user_type == 'Driver' %}
+                    <div class="col-md-12 col-sm-12  col-xs-12">
+                        <div class="box box-default pull-left">
+                            <div class="box-header with-border">
+                                <i class="fa fa-cab"></i>
+
+                                <h3 class="box-title">Driver Information
+                                {% if request.user.driverinfo.confirmed %}
+                                    <i class="fa fa-check btn-success img-circle"></i>
+                                    Confirmed
+                                    {% else %}
+                                    <i class="fa fa-close btn-danger img-circle"></i>
+                                    Unconfirmed
+                                    {% endif %}
+                                </h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <form name="driver-profile" method="post" enctype="multipart/form-data" action="{% url 'app:driver_update' %}">
+                                    {% csrf_token %}
+                                    <div class="form-group has-info">
+                                        <label class="control-label" for="inputname"><i class="fa fa-certificate"></i>
+                                            Driver's Liscence Number
+                                        </label>
+                                        <input type="text" name="number" class="form-control" id="inputname"
+                                               value="{{ request.user.driverinfo.liscence_no }}">
+                                        <span class="help-block">This is must be a valid liscence number</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Date of first issuance</label>
+
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" name="date" class="form-control pull-right" id="datepicker"
+                                                   data-date-end-date="0d" value="{{ request.user.driverinfo.date_issuance }}">
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+
+                                    <div class="form-group has-info">
+                                        <label class="control-label"  for="inputsname"><i class="fa fa-file-picture-o"></i>
+                                            Picture of Driver's Liscence
+                                        </label>
+                                        <input type="file" class="form-control" name="picture" id="inputsname" accept="image/jpeg">
+                                    <span class="help-block">This can be scanned or a snapshot
+                                        {% if request.user.driverinfo.scanned %}
+                                            <br>
+                                            current: <a target="_blank" href="{{ request.user.driverinfo.scanned.url }}">{{ request.user.driverinfo.scanned }}</a>
+                                            {% endif %}
+                                        </span>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </form>
+
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+
+                    </div>
+                {% endif %}
+
+                <div class="col-md-12 col-sm-12  col-xs-12">
+                    <div class="box box-default pull-left">
+                        <div class="box-header with-border">
+                            <i class="fa fa-hand-o-down"></i>
+
+                            <h3 class="box-title">Others</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <form name="bio" method="post" action="{% url 'app:bio_update' %}">
+                                {% csrf_token %}
+                                <div class="form-group has-info">
+                                    <label class="control-label" for="inputame"><i class="fa fa-info"></i>
+                                        Bio
+                                    </label>
+                                    <textarea class="form-control" name="bio" rows="3"
+                                              id="inputame">{{ request.user.get_profile.bio }}</textarea>
+                                    <span class="help-block">This helps to bring you customized information</span>
+                                </div>
+
+                                <div class="form-group has-info">
+                                    <label class="control-label" for="inputname"><i class="fa fa-book"></i>
+                                        Education
+                                    </label>
+                                    <textarea name="education" class="form-control" rows="3"
+                                              id="inputname">{{ request.user.get_profile.education }}</textarea>
+                                    <span class="help-block">This helps to bring you customized information</span>
+                                </div>
+
+                                <div class="form-group has-info">
+                                    <label class="control-label" for="inputuname"><i class="fa fa-briefcase"></i>
+                                        Work
+                                    </label>
+                                    <textarea name="work" class="form-control" rows="3"
+                                              id="inputuname">{{ request.user.get_profile.work }}</textarea>
+                                    <span class="help-block">This helps to bring you customized information</span>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12 col-sm-12  col-xs-12">
+                    <div class="box box-default pull-left">
+                        <div class="box-header with-border">
+                            <i class="fa fa-car"></i>
+
+                            <h3 class="box-title">App Information</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <form name="appinfo" action="{% url 'app:app_update' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group has-info">
+                                    <label class="control-label" for="inputname"><i class="fa fa-user-md"></i>
+                                        User type
+                                    </label>
+                                    <select name="type" class="form-control" id="inputname">
+                                        <option class="default">{{ request.user.user_type }}</option>
+                                        <option>Passenger</option>
+                                        <option>Driver</option>
+
+                                    </select>
+                                    <span class="help-block">Passenger is the default account</span>
+                                </div>
+
+                                <div class="form-group has-info">
+                                    <label class="control-label" for="inputuname"><i class="fa fa-map-marker"></i>
+                                        Location
+                                    </label>
+                                    <input type="text" name="location" class="form-control" id="inputuname"
+                                           value="{{ request.user.address }}">
+                                    <span class="help-block">This helps to bring you customized information</span>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+                </div>
+                <div class="col-md-12 col-sm-12  col-xs-12">
+                    <div class="box box-default pull-left">
+                        <div class="box-header with-border">
+                            <i class="fa fa-users"></i>
+
+                            <h3 class="box-title">Social</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <form name="social-profile" action="{% url 'app:social_update' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group has-info">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-facebook"></i></span>
+                                        <input type="text" name="fb" class="form-control" placeholder="facebook username"
+                                               value="{{ request.user.get_profile.social_facebook }}">
+                                    </div>
+                                    <span class="help-block">This helps users from other network find you</span>
+                                </div>
+
+                                <div class="form-group has-info">
+                                    <div class="input-group">
+                                        <span class="input-group-addon "><i class="fa fa-instagram "></i></span>
+                                        <input type="text" name="ig" class="form-control" placeholder="instagram username"
+                                               value="{{ request.user.get_profile.social_instagram }}">
+                                    </div>
+                                    <span class="help-block">This helps users from other network find you</span>
+                                </div>
+
+                                <div class="form-group has-info">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
+                                        <input type="text" name="tw" class="form-control" placeholder="twitter username"
+                                               value="{{ request.user.get_profile.social_twitter }}">
+                                    </div>
+                                    <span class="help-block">This helps users from other network find you</span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+                </div>
+                <div class="col-md-12 col-sm-12  col-xs-12">
+                    <div class="box box-default pull-left">
+                        <div class="box-header with-border">
+                            <i class="fa fa-lock"></i>
+
+                            <h3 class="box-title">Password Change</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <form name="password-form" method="post" action="{% url 'app:password_update' %}">
+                                {% csrf_token %}
+
+
+                                <div class="form-group has-info">
+                                    <label class="control-label" for="inputuname"><i class="fa fa-lock"></i>
+                                        Old password
+                                    </label>
+                                    <input type="password" name='old' class="form-control" id="inputuname">
+                                </div>
+
+                                <div class="form-group has-info">
+                                    <label class="control-label" for="inputsname"><i class="fa fa-lock"></i>
+                                        New password
+                                    </label>
+                                    <input type="password" name="new" class="form-control" id="inputsname">
+                                </div>
+
+                                <div class="form-group has-info">
+                                    <label class="control-label" for="inputsname"><i class="fa fa-lock"></i>
+                                        Confirm password
+                                    </label>
+                                    <input type="password" name="conf" class="form-control" id="inputsname">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </section>
+{% endblock %}

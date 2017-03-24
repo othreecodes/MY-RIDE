@@ -1,0 +1,111 @@
+{% extends 'app/dashboard/dashboard_template.html' %}
+{% load humanize %}
+{% block heading %}
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Messages</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+            <li><a href="{% url 'app:dashboard_messages' %}"><i class="fa fa-dashboard"></i>Messages</a></li>
+            <li class="active">&nbsp;Read Message</li>
+
+        </ol>
+    </section>
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{% url 'app:dashboard_messages_compose' %}" class="btn btn-primary btn-block margin-bottom">Compose</a>
+
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Folders</h3>
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="active"><a href="{% url 'app:dashboard_messages' %}"><i class="fa fa-inbox"></i> Inbox
+                                <span class="label label-primary pull-right">{{ request.user.get_no_messages|default_if_none:'0 new' }}</span></a></li>
+                            <li><a href="{% url 'app:dashboard_sent' %}"><i class="fa fa-envelope-o"></i> Sent</a></li>
+                            <li><a href="{% url 'app:dashboard_junk' %}"><i class="fa fa-trash-o"></i> Trash</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /. box -->
+
+            </div>
+            <!-- /.col -->
+
+            <div class="col-md-9">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Read Messages</h3>
+
+                        <div class="box-tools pull-right">
+                            <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Previous"><i class="fa fa-chevron-left"></i></a>
+                            <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Next"><i class="fa fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <div class="mailbox-read-info">
+                            <h3>{{ message.subject }}</h3>
+                            {% if recipient %}
+                            <h5> From:<a href="{{ message.sender.get_absolute_url }}"> {{ message.sender.full_name }}</a>
+                                <span class="mailbox-read-time pull-right">{{ message.date }}</span></h5>
+                            {% else  %}
+                                <h5> To:<a href="{{ message.recipient.get_absolute_url }}"> {{ message.recipient.full_name }}</a>
+                                    <span class="mailbox-read-time pull-right">{{ message.date }}</span></h5>
+                            {% endif %}
+                        </div>
+                        <!-- /.mailbox-read-info -->
+
+                        <!-- /.mailbox-controls -->
+                        <div class="mailbox-read-message " id="read-message">
+
+                                <p>{{ message.message|safe }}</p>
+
+                        </div>
+                        <!-- /.mailbox-read-message -->
+                    </div>
+                    <!-- /.box-body -->
+
+                    <!-- /.box-footer -->
+                    <div class="box-footer">
+                        <div class="pull-right">
+                            {% if recipient %}
+                            <a href="{% url 'app:dashboard_messages_reply' message.id %}" role="button" class="btn btn-default"><i class="fa fa-reply"></i> Reply</a>
+                            {%endif%}
+                            <a href="{% url 'app:dashboard_messages_forward' message.id %}" role="button" class="btn btn-default"><i class="fa fa-share"></i> Forward</a>
+                        </div>
+                        {% if recipient %}
+                        <a href="{% url 'app:delete_message' message.id %}" role="button" class="btn btn-default"><i class="fa fa-trash-o"></i> Delete</a>
+                        {% endif %}
+                        <button role="button" class="btn btn-default" onclick="window.print()"><i class="fa fa-print"></i> Print</button>
+
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+                <!-- /. box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+    </section>
+
+{% endblock %}

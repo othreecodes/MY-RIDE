@@ -1,0 +1,164 @@
+{% load static %}
+<header class="main-header">
+    <nav class="navbar navbar-static-top " >
+        <div class="container">
+            <div class="navbar-header">
+                <a href="{% url 'app:index' %}" class="navbar-brand"
+                   style="
+    padding-left: 30px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+">   <img class="hidden-sm hidden-xs" src="{% static 'app/img/mylogo.png' %}"/>
+       <img class="visible-sm visible-xs " height="30" style="margin-top: 10px" src="{% static 'app/img/mylogo.png' %}"
+
+                />
+                    </a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i>&nbsp;Dashboard<span class="sr-only">(current)</span></a></li>
+                    <li><a href="{% url 'broadcast:index' %}"><i class="fa fa-bullhorn"></i>&nbsp;Broadcasts</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-road"></i>&nbsp;Actions <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{% url 'app:add_ride' request.user.id %}">Add Ride</a></li>
+                            <li><a href="{% url 'app:view_rides' request.user.id %}">View / Share Ride</a></li>
+                            <li><a href="{% url 'app:view_shared' request.user.id %}">View Shared Rides</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'app:search_ride' request.user.id %}">Search Ride</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'app:requests_user_view' request.user.id %}">View Requested Rides</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+                    </div>
+                </form>
+            </div>
+            <!-- /.navbar-collapse -->
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Messages: style can be found in dropdown.less-->
+                    <li class="dropdown messages-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="label label-success" id="msg_badge"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have <span id="msg_no"></span> new
+                                messages
+
+                            </li>
+                            <li>
+                                <!-- inner menu: contains the messages -->
+                                <ul class="menu" id="msg-menu">
+
+
+
+                                    <!-- end message -->
+                                </ul>
+                                <!-- /.menu -->
+                            </li>
+                            <li class="footer"><a href="{% url 'app:dashboard_messages' %}">See All Messages</a></li>
+                        </ul>
+                    </li>
+                    <!-- /.messages-menu -->
+
+                    <!-- Notifications Menu -->
+                    <li class="dropdown notifications-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning"> <span id='live_notify_badge'></span> </span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li class="header">You have <span id='live_notify_badge2'></span> new
+                                notifications
+                            </li>
+
+                            <li>
+
+                                <!-- Inner Menu: contains the notifications -->
+                                <ul class="menu" id="live_notify_list">
+                                    <!-- end notification -->
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="{% url 'app:dashboard_notifications' %}">View all</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Tasks Menu -->
+                    <li class="dropdown tasks-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="{% url 'app:preferences' %}">
+                            <i class="glyphicon glyphicon-cog"></i>
+                        </a>
+                    </li>
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="{{ request.user.get_profile.picture.url }}" class="user-image" alt="User Image">
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">{{ request.user.full_name|default:'Profile' }}
+                            {% if user.is_verified %}<i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- The user image in the menu -->
+                            <li class="user-header">
+                                <img src="{{ request.user.get_profile.picture.url }}" class="img-circle" alt="User Image">
+
+                                <p>
+                                    {{ request.user.full_name }} - {{ request.user.user_type }}
+                                    {% if request.user.is_verified %}<i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+
+
+                                    <small>Member since {{ request.user.date_joined|date }}</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="row">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Followers</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Sales</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Following</a>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="{{ request.user.get_absolute_url }}" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="{% url 'app:logout_user' %}" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-custom-menu -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+</header>

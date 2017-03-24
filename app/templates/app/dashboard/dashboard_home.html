@@ -1,0 +1,128 @@
+{% extends 'app/dashboard/dashboard_template.html' %}
+
+{% block heading %}
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Overview</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+            <li class="active">&nbsp;Overview</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+    <section class="content">
+        {% if request.user.user_type == 'Driver' %}
+            <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>{{ vehicle.count }}</h3>
+
+                            <p>Vehicles</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-car"></i>
+                        </div>
+                        <a href="{% url 'app:view_rides' request.user.id %}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>{{ vehicle_share.count }}</h3>
+
+                            <p>Shared Rides</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <a href="{% url 'app:view_shared' request.user.id %}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>{{ request_in.count }}</h3>
+
+                            <p>Ride Requests</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <a href="{% url 'app:view_ride_requests' %}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>{{ request.user.get_no_followers }}</h3>
+                            <p>Followers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-globe"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- /.box -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        {% else %}
+            <div class="row">
+                <!-- ./col -->
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>{{ request_out.count }}</h3>
+
+                            <p>Requested Rides</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-reorder"></i>
+                        </div>
+                        <a href="{% url 'app:requests_user_view' request.user.id %}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>{{ request.user.get_no_followers }}</h3>
+
+                            <p>Followers</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-globe"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+        {% endif %}
+
+    </section>
+
+{% endblock %}

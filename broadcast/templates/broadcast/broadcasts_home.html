@@ -1,0 +1,156 @@
+{% extends 'app/user/main_template.html' %}
+{% load staticfiles %}
+{% load humanize %}
+{% load el_pagination_tags %}
+{% block cont-header %}
+    <section class="content-header">
+        <h1>
+            Broadcasts<small> - news and happenings</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'app:dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li><a href="{% url 'app:index' %}"><i class="fa fa-home"></i> Home</a></li>
+
+            <li class="active">Broadcasts</li>
+        </ol>
+    </section>
+{% endblock %}
+
+{% block body %}
+    {#    <script src="{% static 'app/js/pusher.min.js' %}"></script>#}
+    {#    <script>#}
+    {##}
+    {#        // Enable pusher logging - don't include this in production#}
+    {#        Pusher.logToConsole = true;#}
+    {##}
+    {#        var pusher = new Pusher('528a97eda2db586836e3', {#}
+    {#            encrypted: true#}
+    {#        });#}
+    {##}
+    {#        var channel = pusher.subscribe('test_channel');#}
+    {#        channel.bind('my_event', function(data) {#}
+    {#            alert(data.message);#}
+    {#        });#}
+    {#    </script>#}
+
+    <div class="content-wrapper" style="min-height: 1126px;">
+        <!-- Content Header (Page header) -->
+
+
+        <!-- Main content -->
+        <section class="content">
+
+
+            <div class="row">
+                <div class="col-md-3">
+                <div class="box box-widget widget-user">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-aqua-active">
+              <h4 class="">{{ request.user.full_name }}
+                   {% if request.user.is_verified %}<i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+
+              </h4>
+              <h5 class="widget-user-desc">@{{ request.user.username }}</h5>
+            </div>
+            <div class="widget-user-image user-block">
+              <img class="img-circle" src="{{ request.user.get_profile.picture.url }}" alt="User Avatar">
+            </div>
+            <div class="box-footer">
+              <div class="row">
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">{{ user.get_no_broadcast }}</h5>
+                    <span class="text-sm">Broadcasts</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">{{  request.user.get_no_followers }}</h5>
+                    <span class="text-sm">Followers</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <h5 class="description-header">{{  request.user.get_no_following }}</h5>
+                    <span class="text-sm">Following</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+          </div>
+
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6">
+                {% include 'broadcast/broadcast_template.html' %}
+                </div>
+
+                <div class="col-md-3 hidden-sm hidden-xs">
+                   <!-- DIRECT CHAT PRIMARY -->
+          <div class="box box-primary direct-chat direct-chat-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Who to Follow</h3>
+
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- Conversations are loaded here -->
+              <div class="">
+              <ul class="contacts-list user-block">
+                  {% for user in users|slice:'5' %}
+
+
+
+
+                  <li>
+                    <a href="{{ user.get_absolute_url }}">
+                      <img class="img-circle lazy" src="{{ user.get_profile.picture.url }}" alt="User Image">
+
+                      <div class="contacts-list-info">
+                            <a href="{{ user.get_absolute_url }}" class="contacts-list-name">
+                              @{{ user }}
+                                 {% if user.is_verified %}<i class="fa fa-check btn-primary img-circle"></i>{% endif %}
+
+                              <small class="contacts-list-date pull-right">{{ user.user_type }}</small>
+                            </a>
+{#                        <a class="btn btn-xs bg-blue" onclick=""><i class="fa fa-plus"></i>&nbsp;Follow</a>#}
+                      </div>
+
+                      <!-- /.contacts-list-info -->
+                    </a>
+                  </li>
+
+{#                        {% endif %}#}
+                  {% endfor %}
+                  <!-- End Contact Item -->
+                </ul>
+                <!-- Message to the right -->
+
+                <!-- /.direct-chat-msg -->
+              </div>
+              <!--/.direct-chat-messages-->
+
+              <!-- /.direct-chat-pane -->
+            </div>
+
+          </div>
+
+                </div>
+                <!-- /.col -->
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
+
+
+
+{% endblock %}
+

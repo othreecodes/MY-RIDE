@@ -12,9 +12,8 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
-
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import CustomUser, Vehicle, VehicleSharing, Request
+from .models import CustomUser, Vehicle, VehicleSharing, Request, Message, Follow, Profile, DriverInfo
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
@@ -30,8 +29,9 @@ class CustomUserAdmin(admin.ModelAdmin):
     change_user_password_template = None
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('full_name', 'short_name', 'email', 'sex','phone_number','user_type', 'address')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+        (_('Personal info'),
+         {'fields': ('full_name', 'short_name', 'email', 'sex', 'phone_number', 'user_type', 'address')}),
+        (_('Permissions'), {'fields': ('is_active','is_verified', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
@@ -44,8 +44,8 @@ class CustomUserAdmin(admin.ModelAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     change_password_form = AdminPasswordChangeForm
-    list_display = ('username', 'email', 'full_name', 'user_type', 'is_staff')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    list_display = ('username', 'email', 'full_name', 'user_type', 'is_staff','last_login','date_joined')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups','is_verified')
     search_fields = ('username', 'full_name', 'short_name', 'email')
     ordering = ('username',)
     filter_horizontal = ('groups', 'user_permissions',)
@@ -68,11 +68,14 @@ class CustomUserAdmin(admin.ModelAdmin):
         return super(CustomUserAdmin, self).get_form(request, obj, **defaults)
 
     def get_urls(self):
-        from django.conf.urls import patterns
-        return patterns('',
-                        (r'^(\d+)/password/$',
-                         self.admin_site.admin_view(self.user_change_password))
-                        ) + super(CustomUserAdmin, self).get_urls()
+        from django.conf.urls import url
+        urlpatterns = [
+
+    url(r'^(\d+)/password/$', self.admin_site.admin_view(self.user_change_password)),
+
+
+]+ super(CustomUserAdmin, self).get_urls()
+        return urlpatterns
 
     def lookup_allowed(self, lookup, value):
         # See #20078: we don't want to allow any lookups involving passwords.
@@ -168,6 +171,39 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(Vehicle)
-admin.site.register(VehicleSharing)
-admin.site.register(Request)
+class VehicleAdmin(admin.ModelAdmin):
+    list_display = ( 'make', 'model', 'user','seats', 'type', 'category')
+    list_filter = ('category','type','year')
+admin.site.register(Vehicle,VehicleAdmin),
+
+
+class VehicleShareAdmin(admin.ModelAdmin):
+    list_display = ('start', 'dest', 'cost', 'date', 'start_time', 'arrival_time', 'no_pass', 'sex')
+    list_filter = ('date','ended','no_pass')
+admin.site.register(VehicleSharing,VehicleShareAdmin)
+class RequestAdmin(admin.ModelAdmin):
+    list_display = ('user','reg_date','ride','bearable','status')
+    list_filter = ('ride','status','reg_date')
+admin.site.register(Request,RequestAdmin)
+
+
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('recipient','sender','message','date','read')
+    list_filter = ('recipient','sender','date')
+
+admin.site.register(Message,MessageAdmin)
+
+
+class FollowAdmin(admin.ModelAdmin):
+    list_display = ('followee','follower','time')
+    list_filter = ('follower','followee','time')
+
+admin.site.register(Follow,FollowAdmin)
+
+admin.site.register(Profile)
+
+class DriverInfoAdmin(admin.ModelAdmin):
+    list_display = ('driver','liscence_no','date_issuance')
+    list_filter = ('confirmed','date_issuance')
+
+admin.site.register(DriverInfo,DriverInfoAdmin)
