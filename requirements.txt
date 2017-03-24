@@ -9,6 +9,7 @@ django-dajaxice==0.7
 django-el-pagination==2.1.2
 django-endless-pagination==2.0
 django-model-utils==2.5
+djangorestframework==3.1.1
 django-notifications-hq==1.2
 djangocms-installer==0.8.11
 gevent==1.1.1
