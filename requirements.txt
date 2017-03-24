@@ -1,3 +1,4 @@
+gunicorn==19.6.0
 Django==1.9.7
 django-auth0==0.0.2
 django-smuggler==0.7.0
