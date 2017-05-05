@@ -2,7 +2,9 @@
 # AUTHOR - OTHREE
 # EMAIL - daviduchenna@outlook.com
 # Live Demo - http://othree.pythonanywhere.com
+
 - EDIT: Site is up again but for a more upgraded demo visit  http://theride.xyz
+
 ![](http://i.imgur.com/1bpbbFM.png)
 
 ### Installation
