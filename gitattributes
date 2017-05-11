@@ -7,6 +7,7 @@
 *.pyw 		text
 *.pyx  		text
 
+*.css linguist-language=Java
 # Binary files
 # ============
 *.db		binary
