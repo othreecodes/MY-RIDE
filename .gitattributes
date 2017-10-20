@@ -8,6 +8,8 @@
 *.pyx  		text
 
 *.css linguist-language=Python
+/static/* linguist-vendored=True
+*/static/* linguist-vendored=True
 # Binary files
 # ============
 *.db		binary
