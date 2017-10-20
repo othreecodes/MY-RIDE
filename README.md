@@ -1,11 +1,9 @@
 # MY-RIDE (Django Carpool) ![](https://img.shields.io/badge/othree-codes-yellowgreen.svg)
 # AUTHOR - OTHREE
 # EMAIL - daviduchenna@outlook.com
-# Live Demo - http://othree.pythonanywhere.com
+# Live Demo - http://http://theride.xyz
 
-- EDIT: Site is up again but for a more upgraded demo visit  http://theride.xyz
-
-![](http://i.imgur.com/1bpbbFM.png)
+![](http://i.imgur.com/sd8Ziu9.png)
 
 ### Installation
 requires python > 3 django 1.9
@@ -104,7 +102,7 @@ License
 The MIT License (MIT). Please see LICENSE.rst for more information.
 
 
-    Copyright (c) 2016 Obi Uchenna David
+    Copyright (c) 2016-2017 Obi Uchenna David
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
     files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
