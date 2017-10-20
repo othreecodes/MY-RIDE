@@ -11,6 +11,7 @@
 *.css linguist-language=Python
 /static/* linguist-vendored=True
 */static/* linguist-vendored=True
+*.html linguist-language=True
 # Binary files
 # ============
 *.db		binary
