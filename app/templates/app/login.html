@@ -98,14 +98,14 @@
                     <!-- /.col -->
                 </div>
             </form>
-            <div class="social-auth-links text-center">
+            <!-- <div class="social-auth-links text-center">
                 <p>- OR -</p>
                 <a href="https://myride.auth0.com/authorize?response_type=code&scope=openid%20profile%20email&client_id=Li1h8im1PjLRuZUl6JlUSYrRodwAabsQ&redirect_uri=http://localhost:8000/api/login/&connection=facebook"
                         class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Log in using
                     Facebook</a>
 {#                <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using#}
 {#                    Google+</a>#}
-            </div>
+            </div> -->
             <!-- /.social-auth-links -->
 
 
@@ -118,12 +118,12 @@
     </div>
     <!-- /.login-box -->
     <script>
-        window.onload = function() {
-           for ( t in document.getElementsByTagName('input')){
-               t.className = 'form-control';
-           }
-        }
-    </script>
+    window.onload = function() {
+  for (t in document.getElementsByTagName("input")) {
+    t.className = "form-control";
+  }
+};
+</script>
     <!-- jQuery 2.2.3 -->
     <script src="{% static "app/plugins/jQuery/jquery-2.2.3.min.js" %}"></script>
     <!-- Bootstrap 3.3.6 -->
