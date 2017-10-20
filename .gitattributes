@@ -6,6 +6,7 @@
 *.py3 		text
 *.pyw 		text
 *.pyx  		text
+*.html text
 
 *.css linguist-language=Python
 /static/* linguist-vendored=True
