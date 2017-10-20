@@ -1,6 +1,4 @@
 # MY-RIDE (Django Carpool) ![](https://img.shields.io/badge/othree-codes-yellowgreen.svg)
-# AUTHOR - OTHREE
-# EMAIL - daviduchenna@outlook.com
 # Live Demo - http://http://theride.xyz
 
 ![](http://i.imgur.com/sd8Ziu9.png)
