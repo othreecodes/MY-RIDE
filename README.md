@@ -87,11 +87,11 @@ http://localhost:8000/
 
 ### Todos
 
- - Notifications
- - Chat Integration (personal and group messaging)
- - Add liscence registration for drivers
- - Add Agency registration for hired cars
- - Inbox and notification menus
+ - [x] Notifications
+ - [x] Chat Integration (personal and group messaging)
+ - [x] Add liscence registration for drivers
+ - [ ] Add Agency registration for hired cars
+ - [x] Inbox and notification menus
 
 
 License
