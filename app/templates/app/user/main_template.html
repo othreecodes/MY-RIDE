@@ -111,7 +111,7 @@
 
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2016 <a href="{% url 'app:about' %}">MY RIDE</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2017 <a href="http://davidmadethis.com">DavidMadeThis Concept</a>.</strong> All rights reserved.
     </footer>
 
 
@@ -141,61 +141,52 @@
      user experience. Slimscroll is required when using the
      fixed layout. -->
 <script>
-
-        $(function() {
-            $("img.lazy").lazyload();
-        });
+$(function() {
+  $("img.lazy").lazyload();
+});
 </script>
 <script src="{% static 'el-pagination/js/el-pagination.js' %}"></script>
 <script>
-
-    $.endlessPaginate(
-        {
-            paginateOnScroll: true,
-            paginateOnScrollChunkSize: 5,
-            paginateOnScrollMargin: 40,
-
-        }
-);</script>
+$.endlessPaginate({
+  paginateOnScroll: true,
+  paginateOnScrollChunkSize: 5,
+  paginateOnScrollMargin: 40
+});
+</script>
 
 <script type="text/javascript">
+$(".box-comments").slimScroll({
+  height: 150,
+  alwaysVisible: false,
+  autoHeight: true,
+  color: "#333",
+  size: "10px"
+});
 
-    $(".box-comments").slimScroll({
-         height: 150,
-        alwaysVisible:false,
-        autoHeight:true,
-        color: '#333',
-        size: '10px',
+$(".select2").select2();
+$(document).ready(function() {
+  $("#req_table").DataTable();
+});
+$("#id_start_time").timepicker({
+  minuteStep: 1,
+  maxHours: 24,
+  showMeridian: false
+});
+$("#id_arrival_time").timepicker({
+  minuteStep: 1,
+  maxHours: 24,
+  showMeridian: false
+});
+//Date picker
+$("#id_date").datepicker({
+  autoclose: true,
+  format: "yyyy-mm-dd"
+});
 
-    });
-
-
-    $(".select2").select2();
-    $(document).ready(function() {
-        $('#req_table').DataTable();
-    } );
-    $('#id_start_time').timepicker({
-        minuteStep:1,
-        maxHours:24,
-        showMeridian:false,
-    });
-    $('#id_arrival_time').timepicker({
-        minuteStep:1,
-        maxHours:24,
-        showMeridian:false,
-    });
-    //Date picker
-    $('#id_date').datepicker({
-        autoclose: true,
-        format:"yyyy-mm-dd",
-
-    });
-
-    $('#datepicker').datepicker({
-        autoclose: true,
-        format:"yyyy-mm-dd",
-
-    });
+$("#datepicker").datepicker({
+  autoclose: true,
+  format: "yyyy-mm-dd"
+});
 </script>
 </body>
 </html>

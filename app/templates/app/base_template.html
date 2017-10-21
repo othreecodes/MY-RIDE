@@ -92,7 +92,7 @@
         </div>
         <!-- Default to the left -->
      <a href="{% url 'app:about' %}">Terms of Service</a> |
-    <a href="{% url 'app:about' %}">Privacy</a>
+    <a href="http://davidmadethis.com">DavidMadeThis Concept</a>
     </footer>
 
 
@@ -117,15 +117,14 @@
      user experience. Slimscroll is required when using the
      fixed layout. -->
 <script>
+$(function() {
+  $("img.lazy").lazyload();
+});
 
-        $(function() {
-            $("img.lazy").lazyload();
-        });
-
-    $('#news-demo').slippry({
+$("#news-demo").slippry({
   // general elements & wrapper
   slippryWrapper: '<div class="sy-box news-slider" />', // wrapper to wrap everything, including pager
-  elements: 'article', // elments cointaining slide content
+  elements: "article", // elments cointaining slide content
 
   // options
   adaptiveHeight: false, // height of the sliders adapts to current
@@ -133,15 +132,13 @@
 
   // pager
   // transitions
-  transition: 'fade', // fade, horizontal, kenburns, false
+  transition: "fade", // fade, horizontal, kenburns, false
   speed: 1200,
   pause: 3000,
 
   // slideshow
-  autoDirection: 'prev'
+  autoDirection: "prev"
 });
-
-
 </script>
 
 </body>
