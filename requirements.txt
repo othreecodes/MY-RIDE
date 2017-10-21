@@ -12,3 +12,4 @@ django-widget-tweaks==1.4.1
 djangorestframework==3.4.4
 jsonfield==1.0.3
 requests==2.11.0
+whitenoise==3.3.1
