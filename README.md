@@ -20,7 +20,7 @@ creates the admin account
 ```sh
 python manage.py createsuperuser
 Username:
-Email Address: 
+Email Address:
 Password:
 Password (again):
 ```
@@ -29,7 +29,7 @@ Password (again):
 -Open settings.py
 
 ```python
-#replace with gmail username and password or comment out to ignore the email 
+#replace with gmail username and password or comment out to ignore the email
 STATIC_URL = '/static/'
 ACCOUNT_ACTIVATION_DAYS=7
 EMAIL_HOST='smtp.gmail.com'
@@ -80,9 +80,9 @@ def contact(request):
 ### Running the server
 
 ```sh
-python manage.py runserver 8000
+python manage.py runserver 
 ```
-Open browser to 
+Open browser to
 http://localhost:8000/
 
 ### Todos
@@ -112,15 +112,3 @@ The MIT License (MIT). Please see LICENSE.rst for more information.
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
     LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
-
-
-
-
-
-
-
-
-
-
-
-
