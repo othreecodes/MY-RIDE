@@ -1,8 +1,6 @@
-gunicorn==19.6.0
 Django==1.9.7
-django-auth0==0.0.2
-django-smuggler==0.7.0
 django-activity-stream==0.6.2
+django-auth0==0.0.2
 django-cors-headers==1.1.0
 django-el-pagination==2.1.2
 django-model-utils==2.5.1
@@ -10,6 +8,10 @@ django-notifications-hq==1.2
 django-smuggler==0.7.0
 django-widget-tweaks==1.4.1
 djangorestframework==3.4.4
+gunicorn==19.6.0
 jsonfield==1.0.3
+Pillow==5.0.0
+pkg-resources==0.0.0
+pytz==2017.3
 requests==2.11.0
 whitenoise==3.3.1

@@ -48,6 +48,8 @@ INSTALLED_APPS = [
   'smuggler',
   'corsheaders',
   'rest_framework.authtoken',
+  'cloudinary_storage',
+  'cloudinary'
 
 ]
 
@@ -167,7 +169,7 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # replace with gmail app config
@@ -178,3 +180,6 @@ EMAIL_USE_TLS = 1
 EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
+
+import django_heroku
+django_heroku.settings(locals())
