@@ -1,5 +1,5 @@
 # MY-RIDE (Django Carpool) ![](https://img.shields.io/badge/othree-codes-yellowgreen.svg)
-# Live Demo - http://theride.xyz
+# Live Demo - http://myrideapp.xyz
 
 ![](http://i.imgur.com/sd8Ziu9.png)
 
