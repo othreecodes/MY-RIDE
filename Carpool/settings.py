@@ -183,3 +183,4 @@ EMAIL_HOST_PASSWORD = ''
 
 import django_heroku
 django_heroku.settings(locals())
+SESSION_COOKIE_SECURE = True
