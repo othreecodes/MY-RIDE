@@ -92,8 +92,7 @@ class CustomUserChangeForm(forms.ModelForm):
         # Make sure we pass back in our CustomUserChangeForm and not the
         # default `UserChangeForm`
         super(CustomUserChangeForm, self).__init__(*args, **kwargs)
-        f = self.fields.get('user_permissions', None)
-        if f is not None:
+        if (f := self.fields.get('user_permissions', None)) is not None:
             f.queryset = f.queryset.select_related('content_type')
 
     def clean_password(self):

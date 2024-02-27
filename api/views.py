@@ -69,8 +69,7 @@ class Login(APIView):
         email = dd['email']
         password = dd['password']
 
-        user = authenticate(email=email, password=password)
-        if user is not None:
+        if (user := authenticate(email=email, password=password)) is not None:
 
             token = Token.objects.get_or_create(user=user)
             print(token[0])
@@ -95,8 +94,7 @@ def process_login(request):
     username = dd['username']
     password = dd['password']
 
-    user = authenticate(username=username,password=password)
-    if user is not None:
+    if (user := authenticate(username=username,password=password)) is not None:
 
         token = Token.objects.get_or_create(user=user)
         print(token[0])
