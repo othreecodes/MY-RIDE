@@ -22,5 +22,5 @@ psycopg2==2.7.3.2
 pytz==2017.3
 requests==2.11.0
 six==1.11.0
-urllib3==1.22
+urllib3==1.26.5
 whitenoise==3.3.1
